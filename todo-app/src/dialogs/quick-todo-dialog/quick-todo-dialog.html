@@ -1,0 +1,15 @@
+<template>
+    <require from="./quick-todo-dialog.css"></require>
+    <div class="quick-todo-dialog">
+        <div class="dialog-body">
+            <div class="input-wrapper">
+                <i class="bi bi-check2-square"></i>
+                <input type="text" id="todo-input" value.bind="todoValue" placeholder="Add a todo...">
+            </div>
+            <div class="instructions-wrapper">
+                <div class="instructions">Press Esc to cancel</div>
+                <div class="instructions">Press Enter to save</div>
+            </div>
+        </div>
+    </div>
+</template>

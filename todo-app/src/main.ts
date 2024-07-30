@@ -7,6 +7,7 @@ import { ObjectEntriesValueConverter } from './value-converters/object-entries';
 import { SettingsSidebar } from './components/settings-sidebar/settings-sidebar';
 import { DialogConfiguration, DialogDefaultConfiguration } from '@aurelia/dialog';
 import { CreateActionItemDialog } from './dialogs/create-action-item-dialog/create-action-item-dialog';
+import { QuickTodoDialog } from './dialogs/quick-todo-dialog/quick-todo-dialog';
 
 Aurelia
   .register(DialogDefaultConfiguration)
@@ -14,6 +15,7 @@ Aurelia
   .register(ObjectEntriesValueConverter)
   .register(SettingsSidebar)
   .register(CreateActionItemDialog)
+  .register(QuickTodoDialog)
   .app(Home)
 
   .start();

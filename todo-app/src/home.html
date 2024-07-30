@@ -1,7 +1,7 @@
 <template>
     <require from="./home.css"></require>
     <require from="./style/global.css"></require>
-    <div class="app-container">
+    <div class="app-container home">
         <div class="left-column">
             <div repeat.for="item of sidebarIcons" class="sidebar-action-icon"
                 click.trigger="handleSidebarAction(item.action)" title="${item.tooltip}"
@@ -28,10 +28,12 @@
         <div class="main-content">
             <div class="row">
                 <h1>home</h1>
-                <button click.trigger="openCreateDialog()">Create New Action Item</button>
+                <button class="btn btn-outline-custom quick-dialog-button" click.trigger="openQuickTodoDialog()">Create
+                    New Action
+                    Item</button>
 
                 <ul>
-                    <li repeat.for="item of actionItems">
+                    <li repeat.for="item of actionItemService.actionItems">
                         ${item.title} - ${item.status}
                     </li>
                 </ul>

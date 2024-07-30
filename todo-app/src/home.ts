@@ -5,10 +5,11 @@ import { DialogService } from "@aurelia/dialog";
 import { CreateActionItemDialog } from "./dialogs/create-action-item-dialog/create-action-item-dialog";
 import { ActionItem } from "./models/action-item";
 import { DatabaseService } from "./services/database-service";
+import { QuickTodoDialog } from "./dialogs/quick-todo-dialog/quick-todo-dialog";
+import { ActionItemService } from "./services/action-item-service";
 
-@inject(ThemeService, DialogService, DatabaseService)
+@inject(ThemeService, DialogService, DatabaseService, ActionItemService)
 export class Home {
-	public actionItems: ActionItem[] = [];
 
 	private sidebarIcons = [
 		{ icon: 'bi-layout-sidebar', action: 'toggleLeftSidebar', tooltip: 'Toggle Sidebar' },
@@ -19,11 +20,15 @@ export class Home {
 	private activeSection = '';
 	private leftSidebarVisible = false
 
-	constructor(private themeService: ThemeService, private dialogService: DialogService, private databaseService: DatabaseService) {
-	}
+	constructor(
+		private themeService: ThemeService,
+		private dialogService: DialogService,
+		private databaseService: DatabaseService,
+		private actionItemService: ActionItemService) { }
+
 
 	async attached() {
-		await this.loadActionItems();
+		// await this.actionItemService.loadActionItems();
 	}
 
 	private contentSections = {
@@ -42,13 +47,30 @@ export class Home {
 		if (!result.wasCancelled) {
 			console.log("Refresh the list of action items");
 			// Refresh the list of action items
-			await this.loadActionItems();
+			await this.actionItemService.loadActionItems();
 		}
 	}
 
-	async loadActionItems() {
-		this.actionItems = await this.databaseService.getAllItems('actionItems');
+	async openQuickTodoDialog() {
+		const { dialog } = await this.dialogService.open({
+			component: () => QuickTodoDialog,
+			lock: true,
+			startingZIndex: 10,
+			keyboard: ["Escape"]
+		});
+
+		const response = await dialog.closed;
+		if (response.status === 'ok') {
+			console.log("good response", response);
+			// TODO: create a new action item
+			// return await this.actionItemService.createActionItem(response.value as string);
+		} else {
+			console.log("bad response", response);
+		}
+
 	}
+
+
 
 	handleSidebarAction(action: string) {
 		console.log(action);
