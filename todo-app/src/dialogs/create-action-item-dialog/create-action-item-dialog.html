@@ -1,0 +1,76 @@
+<!-- src/dialogs/create-action-item-dialog.html -->
+
+<template>
+    <require from="./create-action-item-dialog.css"></require>
+    <ux-dialog>
+        <ux-dialog-header>
+            <h2>Create New Action Item</h2>
+        </ux-dialog-header>
+
+        <ux-dialog-body>
+            <form>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" value.bind="actionItem.title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" value.bind="actionItem.description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" value.bind="actionItem.status">
+                        <option repeat.for="status of statuses" value.bind="status">${status}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <select class="form-control" id="priority" value.bind="actionItem.priority">
+                        <option repeat.for="priority of priorities" value.bind="priority">${priority}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="context">Context</label>
+                    <select class="form-control" id="context" value.bind="actionItem.context">
+                        <option repeat.for="context of contexts" value.bind="context">${context}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" class="form-control" id="dueDate" value.bind="actionItem.dueDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="project">Project</label>
+                    <input type="text" class="form-control" id="project" value.bind="actionItem.project">
+                </div>
+
+                <div class="form-group">
+                    <label for="tags">Tags (comma-separated)</label>
+                    <input type="text" class="form-control" id="tags" value.bind="actionItem.tags.join(',')"
+                        change.trigger="actionItem.tags = $event.target.value.split(',')">
+                </div>
+
+                <div class="form-group">
+                    <label for="estimatedTime">Estimated Time (minutes)</label>
+                    <input type="number" class="form-control" id="estimatedTime" value.bind="actionItem.estimatedTime">
+                </div>
+
+                <div class="form-group">
+                    <label for="energy">Energy Level (1-5)</label>
+                    <input type="range" class="form-control" id="energy" min="1" max="5" value.bind="actionItem.energy">
+                </div>
+            </form>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button click.trigger="cancel()">Cancel</button>
+            <button click.trigger="save()">Save</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

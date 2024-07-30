@@ -1,0 +1,26 @@
+.settings-view {
+    color: var(--text-color);
+    padding: 10px 15px;
+}
+
+.settings-sidebar {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.settings-section {
+    margin-bottom: 30px;
+}
+
+h1,
+h2,
+h3 {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .settings-view {
+        padding: 10px;
+    }
+}

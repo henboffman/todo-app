@@ -1,0 +1,29 @@
+<template>
+    <require from="./settings-sidebar.css"></require>
+    <div class="settings-view">
+        <h2>Settings</h2>
+
+        <section class="settings-section">
+            <h3>Appearance</h3>
+            <button class="btn btn-outline-custom" click.trigger="toggleTheme()">Toggle Theme</button>
+        </section>
+
+
+
+        <section class="settings-section">
+            <h3>Data Management</h3>
+
+            <div class="my-2">
+                <button class="btn btn-outline-primary" click.trigger="exportData()">Export Data</button>
+            </div>
+            <textarea value.bind="dataToImport" rows="5" class="form-control my-4"></textarea>
+            <div class="form-check my-2">
+                <input type="checkbox" id="skipDuplicates" checked.bind="skipDuplicates" class="form-check-input">
+                <label for="skipDuplicates" class="form-check-label">Do not import duplicates</label>
+            </div>
+            <button class="btn btn-outline-primary" click.trigger="importData()">Import Data</button>
+        </section>
+    </div>
+
+    <tag-pattern-modal></tag-pattern-modal>
+</template>

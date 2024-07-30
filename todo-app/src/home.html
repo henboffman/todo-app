@@ -1,0 +1,64 @@
+<template>
+    <require from="./home.css"></require>
+    <require from="./style/global.css"></require>
+    <div class="app-container">
+        <div class="left-column">
+            <div repeat.for="item of sidebarIcons" class="sidebar-action-icon"
+                click.trigger="handleSidebarAction(item.action)" title="${item.tooltip}"
+                class.bind="item.action === activeSection ? 'active-section' : ''">
+                <i class="bi ${item.icon} icon"></i>
+            </div>
+        </div>
+
+        <div class="mobile-header">
+            <div class="sidebar-action-icon" click.trigger="toggleLeftSidebar()">
+                <i class="bi bi-layout-sidebar"></i>
+            </div>
+        </div>
+
+        <div class="content-sidebar ${leftSidebarVisible ? 'visible' : 'hidden'}">
+            <div repeat.for="[key, value] of contentSections | objectEntries">
+                <div if.bind="value.visible">
+                    <settings-sidebar if.bind="value.component == 'settings-sidebar'"></settings-sidebar>
+                    <!-- <compose view-model="${value.component}"></compose> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="row">
+                <h1>home</h1>
+                <button click.trigger="openCreateDialog()">Create New Action Item</button>
+
+                <ul>
+                    <li repeat.for="item of actionItems">
+                        ${item.title} - ${item.status}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <div class="footer-content">
+                <!-- <div class="footer-item">
+                    <i class="bi bi-bug bug footer-icon"></i>
+                    <label> ${notesService.bugCount} bugs</label>
+                </div>
+                <div class="footer-item">
+                    <i class="bi bi-lightbulb idea footer-icon"></i>
+                    <label>${notesService.ideaCount} ideas</label>
+                </div>
+                <div class="footer-item">
+                    <i class="bi bi-check-circle todo footer-icon"></i>
+                    <label>${notesService.todoCount} todos</label>
+                </div>
+                <div class="footer-item footer-last-action" click.trigger="openEventHistoryModal()">
+                    <label> <i class="bi bi-clock-history"></i> Last action: ${eventLoggerService.lastEventTimestamp |
+                        relativeTime}</label>
+                </div> -->
+            </div>
+        </footer>
+
+    </div>
+
+</template>

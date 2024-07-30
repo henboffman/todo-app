@@ -1,0 +1,11 @@
+/* bootstrap-overrides.css */
+.btn-outline-custom {
+    color: var(--btn-color);
+    border-color: var(--btn-border-color);
+}
+
+.btn-outline-custom:hover {
+    color: var(--background-color);
+    background-color: var(--btn-color);
+    border-color: var(--btn-border-color);
+}
