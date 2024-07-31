@@ -1,0 +1,40 @@
+<template>
+    <require from="./action-item-card.css"></require>
+    <div class="action-item-card ${isExpanded ? 'expanded' : ''}">
+        <div class="card-content">
+
+            <div class="card-header">
+                <span class="priority badge bg-primary">${actionItem.priority}</span>
+                <span class="status badge bg-secondary">${actionItem.status}</span>
+            </div>
+            <div class="card-body">
+                <span class="title">${actionItem.title}</span>
+                <span class="due-date">${formatDate(actionItem.dueDate)}</span>
+            </div>
+            <div class="card-details" if.bind="isExpanded">
+                <p class="description">${actionItem.description}</p>
+                <p><strong>Context:</strong> ${actionItem.context}</p>
+                <p><strong>Project:</strong> ${actionItem.project}</p>
+                <p><strong>Tags:</strong> ${actionItem.tags.join(', ')}</p>
+                <p><strong>Estimated Time:</strong> ${actionItem.estimatedTime} minutes</p>
+                <p><strong>Energy Level:</strong> ${actionItem.energy}</p>
+
+
+            </div>
+
+            <div class="card-actions">
+                <i class="bi bi-trash icon mx-3" click.trigger="deleteItem()"></i>
+                <!-- <button class="btn btn-sm btn-danger" click.trigger="deleteItem()">
+                    <i class="bi bi-trash"></i>
+                </button> -->
+                <div class="expand-toggle" click.trigger="toggleExpand()">
+                    <i class="bi bi-chevron-right"></i>
+                </div>
+            </div>
+
+            <!-- <div class="expand-toggle" click.trigger="toggleExpand()">
+                <i class="bi ${isExpanded ? 'bi-chevron-up' : 'bi-chevron-down'}"></i>
+            </div> -->
+        </div>
+    </div>
+</template>

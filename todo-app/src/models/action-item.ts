@@ -8,7 +8,8 @@ export enum ActionItemStatus {
     InProgress = 'In Progress',
     Completed = 'Completed',
     Delegated = 'Delegated',
-    Archived = 'Archived'
+    Archived = 'Archived',
+    NotSelected = 'Not Selected'
 }
 
 export enum ActionItemPriority {
@@ -24,7 +25,8 @@ export enum ActionItemContext {
     Errands = 'Errands',
     Calls = 'Calls',
     Computer = 'Computer',
-    Anywhere = 'Anywhere'
+    Anywhere = 'Anywhere',
+    NotSelected = 'Not Selected'
 }
 
 export class ActionItem {
@@ -54,13 +56,15 @@ export class ActionItem {
     subActions: string[]; // Store only IDs of sub-actions
     energy: number;
     isVisible: boolean;
+    isDeleted: boolean = false;
+    deletedDate: string | null = null;
 
     constructor(
         title: string,
         description: string = '',
-        status: ActionItemStatus = ActionItemStatus.NextAction,
+        status: ActionItemStatus = ActionItemStatus.NotSelected,
         priority: ActionItemPriority = ActionItemPriority.Medium,
-        context: ActionItemContext = ActionItemContext.Anywhere
+        context: ActionItemContext = ActionItemContext.NotSelected
     ) {
         this.id = uuidv4();
         this.title = title;
@@ -160,6 +164,16 @@ export class ActionItem {
         if (!this.dueDate) return null;
         const diffTime = new Date(this.dueDate).getTime() - new Date().getTime();
         return Math.ceil(diffTime / (1000 * 3600 * 24));
+    }
+
+    softDelete() {
+        this.isDeleted = true;
+        this.deletedDate = new Date().toISOString();
+    }
+
+    restore() {
+        this.isDeleted = false;
+        this.deletedDate = null;
     }
 
     static fromJSON(json: any): ActionItem {

@@ -73,6 +73,7 @@ body.dark-mode {
 
 .icon:hover {
     color: var(--icon-highlight-color);
+    cursor: pointer;
 }
 
 .todo {

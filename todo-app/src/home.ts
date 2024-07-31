@@ -7,6 +7,7 @@ import { ActionItem } from "./models/action-item";
 import { DatabaseService } from "./services/database-service";
 import { QuickTodoDialog } from "./dialogs/quick-todo-dialog/quick-todo-dialog";
 import { ActionItemService } from "./services/action-item-service";
+import { QuickTodoResult } from "./models/interfaces/quick-todo-result";
 
 @inject(ThemeService, DialogService, DatabaseService, ActionItemService)
 export class Home {
@@ -62,13 +63,46 @@ export class Home {
 		const response = await dialog.closed;
 		if (response.status === 'ok') {
 			console.log("good response", response);
-			// TODO: create a new action item
-			// return await this.actionItemService.createActionItem(response.value as string);
+			const todoResult = response.value as QuickTodoResult;
+			// return await this.actionItemService.createSimpleActionItem(response.value as string);
+			await this.actionItemService.createActionItem(
+				todoResult.title,
+				todoResult.dueDate,
+				todoResult.priority
+			);
 		} else {
 			console.log("bad response", response);
 		}
 
 	}
+
+	// async openQuickTodoDialog() {
+	// 	const result = await this.dialogService.open({
+	// 		component: () QuickTodoDialog,
+	// 		lock: false
+	// 	});
+
+	// 	if (!result.wasCancelled) {
+	// 		const todoResult = result.value as QuickTodoResult;
+	// 		await this.actionItemService.createActionItem(
+	// 			todoResult.title,
+	// 			todoResult.dueDate,
+	// 			todoResult.priority
+	// 		);
+	// 	}
+	// }
+
+	// async openQuickTodoDialog() {
+	// 	const result = await this.dialogService.open({
+	// 		component: QuickTodoDialog,
+	// 		lock: false
+	// 	});
+
+	// 	if (!result.wasCancelled) {
+	// 		const { title, dueDate, priority } = result.value;
+	// 		await this.actionItemService.createActionItem(title, dueDate, priority);
+	// 	}
+	// }
 
 
 

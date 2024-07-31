@@ -1,14 +1,30 @@
 <template>
     <require from="./quick-todo-dialog.css"></require>
-    <div class="quick-todo-dialog">
+    <div class="quick-todo-dialog ${isExpanded ? 'expanded' : ''}">
         <div class="dialog-body">
             <div class="input-wrapper">
                 <i class="bi bi-check2-square"></i>
                 <input type="text" id="todo-input" value.bind="todoValue" placeholder="Add a todo...">
             </div>
+            <div class="additional-fields">
+                <div class="field-wrapper">
+                    <label for="due-date">Due Date</label>
+                    <input type="date" id="due-date" value.bind="dueDate">
+                </div>
+                <div class="field-wrapper">
+                    <label for="priority">Priority</label>
+                    <select class="form-control" id="priority" value.bind="priority">
+                        <option repeat.for="priority of priorities" value.bind="priority">${priority}</option>
+                    </select>
+                </div>
+            </div>
             <div class="instructions-wrapper">
                 <div class="instructions">Press Esc to cancel</div>
-                <div class="instructions">Press Enter to save</div>
+                <div class="expand-toggle" click.trigger="toggleExpand()">
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div class=" instructions">Press Enter to save
+                </div>
             </div>
         </div>
     </div>

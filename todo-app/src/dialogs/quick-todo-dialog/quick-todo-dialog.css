@@ -2,7 +2,6 @@
 au-dialog-container {
     background-color: rgba(0, 0, 0, 0.15);
     padding-bottom: 40vh;
-    /* Semi-transparent background */
 }
 
 au-dialog-container>div {
@@ -24,7 +23,30 @@ au-dialog-container>div {
     }
 }
 
-/* Quick todo dialog styles */
+@keyframes slideDown {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+
+    to {
+        max-height: 100px;
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        max-height: 100px;
+        opacity: 1;
+    }
+
+    to {
+        max-height: 0;
+        opacity: 0;
+    }
+}
+
 .quick-todo-dialog {
     width: 50vw;
     padding: 20px;
@@ -33,8 +55,9 @@ au-dialog-container>div {
     border: 1px solid var(--muted-line-color);
     border-radius: 10px;
     box-shadow: 0 8px 44px rgba(0, 0, 0, 0.55);
-
-    transition: opacity 0.25s, transform 0.25s;
+    transition: height 0.3s ease-in-out;
+    transform-origin: top;
+    /* Add this line */
 }
 
 .quick-todo-dialog.closing {
@@ -49,7 +72,7 @@ au-dialog-container>div {
 .input-wrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .input-wrapper i {
@@ -68,9 +91,63 @@ au-dialog-container>div {
     outline: none;
 }
 
+/* .additional-fields {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.quick-todo-dialog.expanded .additional-fields {
+    max-height: 100px;
+    opacity: 1;
+    transform: translateY(0);
+} */
+
+.additional-fields {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.quick-todo-dialog.expanded .additional-fields {
+    max-height: 100px;
+    opacity: 1;
+}
+
+.field-wrapper {
+    width: 48%;
+}
+
+.field-wrapper label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: var(--muted-text-color);
+}
+
+.field-wrapper input,
+.field-wrapper select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--muted-line-color);
+    background-color: var(--dialog-background);
+    color: var(--text-color);
+    border-radius: 5px;
+}
+
 .instructions-wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
 }
 
@@ -79,7 +156,22 @@ au-dialog-container>div {
     color: var(--muted-text-color);
 }
 
-/* You might need to adjust these styles based on your specific Aurelia setup */
+.expand-toggle {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.expand-toggle i {
+    font-size: 1.2em;
+    color: var(--muted-text-color);
+    transition: transform 0.3s ease;
+}
+
+.quick-todo-dialog.expanded .expand-toggle i {
+    transform: rotate(180deg);
+}
+
+/* Aurelia dialog styles */
 ux-dialog-overlay {
     background-color: rgba(0, 0, 0, 0.5);
 }

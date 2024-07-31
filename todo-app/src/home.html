@@ -26,17 +26,28 @@
         </div>
 
         <div class="main-content">
-            <div class="row">
-                <h1>home</h1>
-                <button class="btn btn-outline-custom quick-dialog-button" click.trigger="openQuickTodoDialog()">Create
-                    New Action
-                    Item</button>
+            <div class="container-fluid">
+                <div class="row align-items-center mb-4">
+                    <div class="col">
+                        <h1>Home</h1>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-outline-custom quick-dialog-button"
+                            click.trigger="openQuickTodoDialog()">
+                            Create New Action Item
+                        </button>
+                    </div>
+                </div>
 
-                <ul>
-                    <li repeat.for="item of actionItemService.actionItems">
-                        ${item.title} - ${item.status}
-                    </li>
-                </ul>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-3">
+                    <div class="col" repeat.for="item of actionItemService.actionItems">
+                        <action-item-card action-item.bind="item"></action-item-card>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <action-item-table action-items.bind="actionItemService.actionItems"></action-item-table>
             </div>
         </div>
 

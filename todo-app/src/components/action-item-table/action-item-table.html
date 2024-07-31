@@ -1,0 +1,29 @@
+<template>
+    <require from="./action-item-table.css"></require>
+    <table class="action-item-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+                <th>Context</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr repeat.for="item of actionItems">
+                <td>${item.title}</td>
+                <td>${item.status}</td>
+                <td>${item.dueDate | dateFormat}</td>
+                <td>${item.priority}</td>
+                <td>${item.context}</td>
+                <td>
+                    <button click.trigger="editItem(item)">Edit</button>
+                    <button click.trigger="completeItem(item)">Complete</button>
+                    <button click.trigger="deleteItem(item)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>
