@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'; // You'll need to install the uuid package
 
 export enum ActionItemStatus {
+    New = 'New',
+    Pending = 'Pending',
     NextAction = 'Next Action',
     WaitingFor = 'Waiting For',
     Scheduled = 'Scheduled',
@@ -58,11 +60,12 @@ export class ActionItem {
     isVisible: boolean;
     isDeleted: boolean = false;
     deletedDate: string | null = null;
+    animate: boolean = false;
 
     constructor(
         title: string,
         description: string = '',
-        status: ActionItemStatus = ActionItemStatus.NotSelected,
+        status: ActionItemStatus = ActionItemStatus.New,
         priority: ActionItemPriority = ActionItemPriority.Medium,
         context: ActionItemContext = ActionItemContext.NotSelected
     ) {
@@ -79,6 +82,7 @@ export class ActionItem {
         this.subActions = [];
         this.isVisible = true;
         this.recurring = false;
+        this.animate = false;
         this.energy = 3; // Default to medium energy
     }
 
@@ -89,7 +93,7 @@ export class ActionItem {
     }
 
     reopen(): void {
-        this.status = ActionItemStatus.NextAction;
+        this.status = ActionItemStatus.Pending;
         this.completedDate = null;
         this.updateLastModified();
     }
@@ -180,5 +184,12 @@ export class ActionItem {
         const actionItem = new ActionItem(json.title);
         Object.assign(actionItem, json);
         return actionItem;
+    }
+
+    static fromObject(obj: any): ActionItem {
+        const item = new ActionItem(obj.title);
+        item.animate = obj.animate || false;
+        Object.assign(item, obj);
+        return item;
     }
 }

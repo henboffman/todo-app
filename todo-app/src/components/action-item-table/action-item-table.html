@@ -1,26 +1,90 @@
 <template>
     <require from="./action-item-table.css"></require>
-    <table class="action-item-table">
+    <table class="table table-dark table-hover action-item-table">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Priority</th>
-                <th>Context</th>
+                <th></th>
+                <th>
+                    Title
+                    <span class="sort-icons">
+                        <i class="bi bi-sort-alpha-down" show.bind="sortDirection == 'desc'"
+                            click.trigger="sort('title', 'asc')" class.bind="sortField == 'title'? 'active': ''"></i>
+                        <i class="bi bi-sort-alpha-up" show.bind="sortDirection == 'asc'"
+                            click.trigger="sort('title', 'desc')" class.bind="sortField == 'title'? 'active': ''"></i>
+                    </span>
+                    <!-- <i class="bi bi-funnel ${filters.title?.length ? 'active' : ''}"
+                        click.trigger="toggleFilter('title')"></i> -->
+                </th>
+                <th>
+                    Status
+                    <span class="sort-icons">
+                        <i class="bi bi-sort-down" show.bind="sortDirection == 'desc'"
+                            click.trigger="sort('status', 'asc')" class.bind="sortField == 'status'? 'active': ''"></i>
+                        <i class="bi bi-sort-up" show.bind="sortDirection == 'asc'"
+                            click.trigger="sort('status', 'desc')" class.bind="sortField == 'status'? 'active': ''"></i>
+                    </span>
+                    <i class="bi bi-funnel ${filters.status?.length ? 'active' : ''}"
+                        click.trigger="toggleFilter('status')"></i>
+                </th>
+                <th>
+                    Due Date
+                    <span class="sort-icons">
+                        <i class="bi bi-sort-numeric-down" show.bind="sortDirection == 'desc'"
+                            click.trigger="sort('dueDate', 'asc')"
+                            class.bind="sortField == 'dueDate'? 'active': ''"></i>
+                        <i class="bi bi-sort-numeric-up" show.bind="sortDirection == 'asc'"
+                            click.trigger="sort('dueDate', 'desc')"
+                            class.bind="sortField == 'dueDate'? 'active': ''"></i>
+                    </span>
+                    <i class="bi bi-funnel ${filters.dueDate?.length ? 'active' : ''}"
+                        click.trigger="toggleFilter('dueDate')"></i>
+                </th>
+                <th>
+                    Priority
+                    <span class="sort-icons">
+                        <i class="bi bi-sort-down" show.bind="sortDirection == 'desc'"
+                            click.trigger="sort('priority', 'asc')"
+                            class.bind="sortField == 'priority'? 'active': ''"></i>
+                        <i class="bi bi-sort-up" show.bind="sortDirection == 'asc'"
+                            click.trigger="sort('priority', 'desc')"
+                            class.bind="sortField == 'priority'? 'active': ''"></i>
+                    </span>
+                    <i class="bi bi-funnel ${filters.priority?.length ? 'active' : ''}"
+                        click.trigger="toggleFilter('priority')"></i>
+                </th>
+                <th>
+                    Context
+                    <span class="sort-icons">
+                        <i class="bi bi-sort-alpha-down" show.bind="sortDirection == 'desc'"
+                            click.trigger="sort('context', 'asc')"
+                            class.bind="sortField == 'context'? 'active': ''"></i>
+                        <i class="bi bi-sort-alpha-up" show.bind="sortDirection == 'asc'"
+                            click.trigger="sort('context', 'desc')"
+                            class.bind="sortField == 'context'? 'active': ''"></i>
+                    </span>
+                    <i class="bi bi-funnel ${filters.context?.length ? 'active' : ''}"
+                        click.trigger="toggleFilter('context')"></i>
+                </th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr repeat.for="item of actionItems">
-                <td>${item.title}</td>
+            <tr repeat.for="item of sortedAndFilteredItems"
+                class="${item.status === 'Completed' ? 'completed-item' : ''} ${item.animate ? 'animate' : ''}">
+                <td>
+                    <label class="custom-checkbox ${item.animate ? 'animate' : ''}">
+                        <input type="checkbox" checked.bind="item.status === 'Completed'"
+                            change.trigger="toggleCompleted(item)">
+                        <span class="checkmark"></span>
+                    </label>
+                </td>
+                <td class="item-title">${item.title}</td>
                 <td>${item.status}</td>
                 <td>${item.dueDate | dateFormat}</td>
                 <td>${item.priority}</td>
                 <td>${item.context}</td>
                 <td>
                     <button click.trigger="editItem(item)">Edit</button>
-                    <button click.trigger="completeItem(item)">Complete</button>
                     <button click.trigger="deleteItem(item)">Delete</button>
                 </td>
             </tr>

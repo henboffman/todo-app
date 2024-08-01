@@ -1,13 +1,27 @@
 .action-item-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--muted-line-color);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .action-item-table th,
 .action-item-table td {
     padding: 10px;
-    border: 1px solid var(--muted-line-color);
+    border-bottom: 1px solid var(--muted-line-color);
+    border-right: 1px solid var(--muted-line-color);
     text-align: left;
+}
+
+.action-item-table th:last-child,
+.action-item-table td:last-child {
+    border-right: none;
+}
+
+.action-item-table tr:last-child td {
+    border-bottom: none;
 }
 
 .action-item-table th {
@@ -40,4 +54,158 @@
 
 .action-item-table button:hover {
     opacity: 0.8;
+}
+
+.custom-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.custom-checkbox:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+.custom-checkbox input:checked~.checkmark {
+    background-color: var(--completed-color);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked~.checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 7px;
+    height: 13px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    transition: all 0.2s ease;
+}
+
+/* Animation */
+.custom-checkbox.animate .checkmark {
+    animation: checkbox-pop 0.2s ease !important;
+}
+
+.custom-checkbox.animate input:checked~.checkmark:after {
+    animation: check-animation 0.2s ease !important;
+}
+
+@keyframes checkbox-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        /* transform: scale(1.2); */
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes check-animation {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+
+    20% {
+        height: 5px;
+        width: 5px;
+        opacity: 1;
+    }
+
+    /* 60% {
+        height: 10px;
+        width: 5px;
+        opacity: 1;
+    } */
+
+    100% {
+        height: 13px;
+        width: 7px;
+        opacity: 1;
+    }
+}
+
+.action-item-table th {
+    position: relative;
+    padding-right: 30px;
+    /* Make room for icons */
+}
+
+.sort-icons {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 5px;
+}
+
+.sort-icons i,
+.bi-funnel {
+    cursor: pointer;
+    margin-left: 5px;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.sort-icons i:hover,
+.bi-funnel:hover {
+    opacity: 1;
+}
+
+.sort-icons i.active,
+.bi-funnel.active {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+.bi-funnel {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bi-funnel.active,
+.sort-icons i.active {
+    color: var(--icon-highlight-color);
+    font-weight: 600;
 }

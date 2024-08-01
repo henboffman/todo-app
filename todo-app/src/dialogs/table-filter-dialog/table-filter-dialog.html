@@ -1,0 +1,22 @@
+<!-- filter-dialog.html -->
+<template>
+    <ux-dialog>
+        <ux-dialog-header>
+            Filter ${field}
+        </ux-dialog-header>
+
+        <ux-dialog-body>
+            <div repeat.for="value of distinctValues">
+                <label>
+                    <input type="checkbox" checked.bind="selectedValues.has(value)" change.trigger="toggleValue(value)">
+                    ${value}
+                </label>
+            </div>
+        </ux-dialog-body>
+
+        <ux-dialog-footer>
+            <button click.trigger="apply()">Apply</button>
+            <button click.trigger="cancel()">Cancel</button>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

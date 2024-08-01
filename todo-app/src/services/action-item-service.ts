@@ -20,14 +20,25 @@ export class ActionItemService {
         await this.loadActionItems();
     }
 
+    async updateItem(item: ActionItem): Promise<void> {
+        await this.databaseService.updateItem('actionItems', item.key!, item);
+        // await this.loadActionItems();
+    }
+
     async loadActionItems() {
         const items = await this.databaseService.getAllItems('actionItems');
-        this.actionItems = items.filter(item => !item.isDeleted);
+        this.actionItems = items
+            .filter(item => !item.isDeleted)
+            .map(item => ActionItem.fromObject(item));
+        // set the animate property on each item to false
+        this.actionItems.forEach(item => item.animate = false);
     }
 
     async loadDeletedActionItems() {
         const items = await this.databaseService.getAllItems('actionItems');
-        this.deletedActionItems = items.filter(item => item.isDeleted);
+        this.deletedActionItems = items
+            .filter(item => item.isDeleted)
+            .map(item => ActionItem.fromObject(item));
     }
 
     async createSimpleActionItem(title: string) {
