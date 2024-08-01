@@ -78,14 +78,47 @@
                         <span class="checkmark"></span>
                     </label>
                 </td>
-                <td class="item-title">${item.title}</td>
-                <td>${item.status}</td>
-                <td>${item.dueDate | dateFormat}</td>
-                <td>${item.priority}</td>
-                <td>${item.context}</td>
+                <td class="item-title" class.bind="item.status=='Completed' ? 'completed' : '' ">
+                    <input if.bind="editingItem === item" type="text" class="form-control" value.bind="item.title">
+                    <span else>${item.title}</span>
+                </td>
+                <td class.bind="item.status=='Completed' ? 'completed' : '' ">
+                    <select if.bind="editingItem === item" value.bind="item.status" class="form-control">
+                        <option repeat.for="status of statusOptions" value.bind="status">${status}</option>
+                    </select>
+                    <span else>${item.status}</span>
+                </td>
+                <td class.bind="item.status=='Completed' ? 'completed' : '' ">
+                    <input if.bind="editingItem === item" type="date" value.bind="item.dueDate" class="form-control">
+                    <span else>${item.dueDate | dateFormat}</span>
+                </td>
+                <td class.bind="item.status=='Completed' ? 'completed' : '' ">
+                    <select if.bind="editingItem === item" value.bind="item.priority" class="form-control">
+                        <option repeat.for="priority of priorityOptions" value.bind="priority">${priority}</option>
+                    </select>
+                    <span else>${item.priority}</span>
+                </td>
+                <td class.bind="item.status=='Completed' ? 'completed' : '' ">
+                    <select if.bind="editingItem === item" value.bind="item.context" class="form-control">
+                        <option repeat.for="context of contextOptions" value.bind="context">${context}</option>
+                    </select>
+                    <span else>${item.context}</span>
+                </td>
                 <td>
-                    <button click.trigger="editItem(item)">Edit</button>
-                    <button click.trigger="deleteItem(item)">Delete</button>
+                    <button if.bind="editingItem === item" click.trigger="saveItem(item)">Save</button>
+
+                    <button if.bind="editingItem === item" click.trigger="cancelEdit()">Cancel</button>
+
+                    <i class="bi bi-pencil icon mx-2" if.bind="editingItem !== item" click.trigger="editItem(item)"></i>
+
+                    <!-- <button if.bind="editingItem !== item" click.trigger="editItem(item)">
+                    </button> -->
+
+                    <i class="bi bi-trash icon" click.trigger="deleteItem(item)"></i>
+                    <!-- <button click.trigger="deleteItem(item)">
+                        <i class="bi bi-trash">
+
+                    </button> -->
                 </td>
             </tr>
         </tbody>

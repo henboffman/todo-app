@@ -1,5 +1,5 @@
 import { bindable, inject } from 'aurelia';
-import { ActionItem, ActionItemStatus } from '../../models/action-item';
+import { ActionItem, ActionItemContext, ActionItemPriority, ActionItemStatus } from '../../models/action-item';
 import { ActionItemService } from '../../services/action-item-service';
 import { TableFilterDialog } from '../../dialogs/table-filter-dialog/table-filter-dialog';
 import { DialogService } from '@aurelia/dialog';
@@ -9,6 +9,8 @@ export class ActionItemTable {
     // @ts-expect-error:null
     @bindable actionItems: ActionItem[] = [];
     private sortedAndFilteredItems: ActionItem[] = [];
+
+    private editingItem: ActionItem | null = null;
     private sortField: keyof ActionItem | null = null;
     private sortDirection: 'asc' | 'desc' = 'asc';
     private filters: { [key: string]: string[] } = {};
@@ -22,6 +24,20 @@ export class ActionItemTable {
 
     actionItemsChanged() {
         this.updateSortedAndFilteredItems();
+    }
+
+    editItem(item: ActionItem) {
+        this.editingItem = item;
+    }
+
+    async saveItem(item: ActionItem) {
+        await this.actionItemService.updateItem(item);
+        this.editingItem = null;
+        this.updateSortedAndFilteredItems();
+    }
+
+    cancelEdit() {
+        this.editingItem = null;
     }
 
     sort(field: keyof ActionItem, direction: 'asc' | 'desc') {
@@ -97,11 +113,6 @@ export class ActionItemTable {
         this.updateSortedAndFilteredItems();
     }
 
-    editItem(item: ActionItem) {
-        // Implement edit logic
-        console.log('Edit item:', item);
-    }
-
     async completeItem(item: ActionItem) {
         item.complete();
         await this.actionItemService.updateItem(item);
@@ -111,5 +122,17 @@ export class ActionItemTable {
     async deleteItem(item: ActionItem) {
         await this.actionItemService.softDeleteActionItem(item);
         this.updateSortedAndFilteredItems();
+    }
+
+    get statusOptions() {
+        return Object.values(ActionItemStatus);
+    }
+
+    get priorityOptions() {
+        return Object.values(ActionItemPriority);
+    }
+
+    get contextOptions() {
+        return Object.values(ActionItemContext);
     }
 }
