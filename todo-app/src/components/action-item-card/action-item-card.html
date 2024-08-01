@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <span class="title">${actionItem.title}</span>
-                <span class="due-date">${formatDate(actionItem.dueDate)}</span>
+                <span class="due-date" show.bind="!isExpanded">${formatDate(actionItem.dueDate)}</span>
             </div>
             <div class="card-details" if.bind="isExpanded">
                 <p class="description">${actionItem.description}</p>
@@ -18,7 +18,7 @@
                 <p><strong>Tags:</strong> ${actionItem.tags.join(', ')}</p>
                 <p><strong>Estimated Time:</strong> ${actionItem.estimatedTime} minutes</p>
                 <p><strong>Energy Level:</strong> ${actionItem.energy}</p>
-
+                <span class="due-date" show.bind="isExpanded">${formatDate(actionItem.dueDate)}</span>
 
             </div>
 
