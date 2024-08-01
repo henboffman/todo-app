@@ -58,6 +58,7 @@
 .due-date {
     font-size: 0.8em;
     margin-top: auto;
+    cursor: pointer;
 }
 
 .card-details {
@@ -132,4 +133,11 @@
         aspect-ratio: auto;
         height: auto;
     }
+}
+
+.card-date-edit {
+    border-radius: 5px;
+    cursor: pointer;
+    padding-left: 4px;
+    padding-right: 4px;
 }

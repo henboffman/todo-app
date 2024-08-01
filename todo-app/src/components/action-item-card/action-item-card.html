@@ -9,7 +9,14 @@
             </div>
             <div class="card-body">
                 <span class="title">${actionItem.title}</span>
-                <span class="due-date" show.bind="!isExpanded">${formatDate(actionItem.dueDate)}</span>
+                <span class="due-date" show.bind="!isExpanded && !editingDate"
+                    click.trigger="editDate()">${formatDate(actionItem.dueDate)}</span>
+                <div show.bind="!isExpanded && editingDate" class="due-date">
+                    <input type="date" class="card-date-edit" value.bind="actionItem.dueDate">
+                    <i class="bi bi-floppy icon me-1" click.trigger="saveDate()"></i>
+                    <i class="bi bi-x-circle icon" click.trigger="cancelEdit()"></i>
+                </div>
+
             </div>
             <div class="card-details" if.bind="isExpanded">
                 <p class="description">${actionItem.description}</p>
