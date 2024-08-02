@@ -1,59 +1,59 @@
 <template>
-    <require from="./home.css"></require>
-    <require from="./style/global.css"></require>
-    <div class="app-container home">
-        <div class="left-column">
-            <div repeat.for="item of sidebarIcons" class="sidebar-action-icon"
-                click.trigger="handleSidebarAction(item.action)" title="${item.tooltip}"
-                class.bind="item.action === activeSection ? 'active-section' : ''">
-                <i class="bi ${item.icon} icon"></i>
-            </div>
-        </div>
+	<require from="./home.css"></require>
+	<require from="./style/global.css"></require>
+	<div class="app-container home">
+		<div class="left-column">
+			<div repeat.for="item of sidebarIcons" class="sidebar-action-icon"
+				click.trigger="handleSidebarAction(item.action)" title="${item.tooltip}"
+				class.bind="item.action === activeSection ? 'active-section' : ''">
+				<i class="bi ${item.icon} icon"></i>
+			</div>
+		</div>
 
-        <div class="mobile-header">
-            <div class="sidebar-action-icon" click.trigger="toggleLeftSidebar()">
-                <i class="bi bi-layout-sidebar"></i>
-            </div>
-        </div>
+		<div class="mobile-header">
+			<div class="sidebar-action-icon" click.trigger="toggleLeftSidebar()">
+				<i class="bi bi-layout-sidebar"></i>
+			</div>
+		</div>
 
-        <div class="content-sidebar ${leftSidebarVisible ? 'visible' : 'hidden'}">
-            <div repeat.for="[key, value] of contentSections | objectEntries">
-                <div if.bind="value.visible">
-                    <settings-sidebar if.bind="value.component == 'settings-sidebar'"></settings-sidebar>
-                    <!-- <compose view-model="${value.component}"></compose> -->
-                </div>
-            </div>
-        </div>
+		<div class="content-sidebar ${leftSidebarVisible ? 'visible' : 'hidden'}">
+			<div repeat.for="[key, value] of contentSections | objectEntries">
+				<div if.bind="value.visible">
+					<settings-sidebar if.bind="value.component == 'settings-sidebar'"></settings-sidebar>
+					<!-- <compose view-model="${value.component}"></compose> -->
+				</div>
+			</div>
+		</div>
 
-        <div class="main-content">
-            <div class="container-fluid">
-                <div class="row align-items-center mb-4">
-                    <div class="col">
-                        <h1>Home</h1>
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-outline-custom quick-dialog-button"
-                            click.trigger="openQuickTodoDialog()">
-                            Create New Action Item
-                        </button>
-                    </div>
-                </div>
+		<div class="main-content">
+			<div class="container-fluid">
+				<div class="row align-items-center mb-4">
+					<div class="col">
+						<h1>Home</h1>
+					</div>
+					<div class="col-auto">
+						<button class="btn btn-outline-custom quick-dialog-button"
+							click.trigger="openQuickTodoDialog()">
+							Create New Action Item
+						</button>
+					</div>
+				</div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-3">
-                    <div class="col" repeat.for="item of actionItemService.actionItems">
-                        <action-item-card action-item.bind="item"></action-item-card>
-                    </div>
-                </div>
-            </div>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-3">
+					<div class="col" repeat.for="item of actionItemService.upcomingItems">
+						<action-item-card action-item.bind="item"></action-item-card>
+					</div>
+				</div>
+			</div>
 
-            <div class="col-12 mt-5">
-                <action-item-table action-items.bind="actionItemService.actionItems"></action-item-table>
-            </div>
-        </div>
+			<div class="col-12 mt-5">
+				<action-item-table action-items.bind="actionItemService.actionItems"></action-item-table>
+			</div>
+		</div>
 
-        <footer class="app-footer">
-            <div class="footer-content">
-                <!-- <div class="footer-item">
+		<footer class="app-footer">
+			<div class="footer-content">
+				<!-- <div class="footer-item">
                     <i class="bi bi-bug bug footer-icon"></i>
                     <label> ${notesService.bugCount} bugs</label>
                 </div>
@@ -69,9 +69,9 @@
                     <label> <i class="bi bi-clock-history"></i> Last action: ${eventLoggerService.lastEventTimestamp |
                         relativeTime}</label>
                 </div> -->
-            </div>
-        </footer>
+			</div>
+		</footer>
 
-    </div>
+	</div>
 
 </template>
