@@ -1,6 +1,7 @@
 <template>
     <require from="./action-item-card.css"></require>
-    <div class="action-item-card ${isExpanded ? 'expanded' : ''}">
+    <div class="action-item-card ${isExpanded ? 'expanded' : ''} ${getCardClass()}">
+
         <div class="card-content">
 
             <div class="card-header">

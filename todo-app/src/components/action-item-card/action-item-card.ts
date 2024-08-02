@@ -1,5 +1,5 @@
 import { bindable, inject } from 'aurelia';
-import { ActionItem } from '../../models/action-item';
+import { ActionItem, ActionItemStatus } from '../../models/action-item';
 import { ActionItemService } from '../../services/action-item-service';
 
 @inject(ActionItemService)
@@ -14,6 +14,29 @@ export class ActionItemCard {
 
     toggleExpand() {
         this.isExpanded = !this.isExpanded;
+    }
+
+    getCardClass(): string {
+        if (this.actionItem.status === ActionItemStatus.Completed) {
+            return 'completed';
+        }
+
+        if (!this.actionItem.dueDate) {
+            return '';
+        }
+
+        const dueDate = new Date(this.actionItem.dueDate);
+        const today = new Date();
+        const diffTime = dueDate.getTime() - today.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+
+        if (diffDays < 0) {
+            return 'overdue';
+        } else if (diffDays <= 3) {
+            return 'due-soon';
+        }
+
+        return '';
     }
 
     editDate(): void {
