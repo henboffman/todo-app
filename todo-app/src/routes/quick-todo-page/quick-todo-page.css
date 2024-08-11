@@ -1,0 +1,90 @@
+.quick-todo-form {
+	width: 50vw;
+	padding: 20px;
+	background-color: var(--dialog-background);
+	color: var(--text-color);
+	border: 1px solid var(--muted-line-color);
+	border-radius: 10px;
+	box-shadow: 0 8px 44px rgba(0, 0, 0, 0.55);
+	transition: height 0.3s ease-in-out;
+}
+
+.input-wrapper {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.input-wrapper i {
+	font-size: 1.5em;
+	color: var(--muted-text-color);
+	margin-right: 10px;
+}
+
+.input-wrapper input {
+	flex-grow: 1;
+	font-size: 1.5em;
+	padding: 10px;
+	border: none;
+	background-color: transparent;
+	color: var(--text-color);
+	outline: none;
+}
+
+.additional-fields {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+	overflow: hidden;
+	max-height: 0;
+	opacity: 0;
+	transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.quick-todo-form.expanded .additional-fields {
+	max-height: 100px;
+	opacity: 1;
+}
+
+.field-wrapper {
+	width: 48%;
+}
+
+.field-wrapper label {
+	display: block;
+	margin-bottom: 5px;
+	font-size: 0.9em;
+	color: var(--muted-text-color);
+}
+
+.field-wrapper input,
+.field-wrapper select {
+	width: 100%;
+	padding: 5px;
+	border: 1px solid var(--muted-line-color);
+	background-color: var(--dialog-background);
+	color: var(--text-color);
+	border-radius: 5px;
+}
+
+.instructions-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.expand-toggle {
+	cursor: pointer;
+	padding: 5px;
+}
+
+.expand-toggle i {
+	font-size: 1.2em;
+	color: var(--muted-text-color);
+	transition: transform 0.3s ease;
+}
+
+.quick-todo-form.expanded .expand-toggle i {
+	transform: rotate(180deg);
+}
