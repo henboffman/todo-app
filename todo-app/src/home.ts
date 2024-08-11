@@ -117,17 +117,21 @@ export class Home {
 	}
 
 	toggleNavigation() {
-		this.contentSections.navigation.visible = !this.contentSections.navigation.visible;
+		this.contentSections.settings.visible = false;
+		this.contentSections.navigation.visible = true;
 		if (!this.leftSidebarVisible) {
 			this.leftSidebarVisible = true;
 		}
 	}
 
 	activateSettingsSidebar() {
-		this.contentSections.settings.visible = !this.contentSections.settings.visible;
+		this.contentSections.navigation.visible = false;
+		this.contentSections.settings.visible = true;
+
 		if (!this.leftSidebarVisible) {
 			this.leftSidebarVisible = true;
 		}
+
 	}
 
 }

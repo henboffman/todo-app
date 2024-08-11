@@ -15,7 +15,7 @@ au-dialog-container>div {
     background-color: var(--dialog-background);
     border-radius: 8px;
     padding: 20px;
-    width: 300px;
+    width: 40vw;
     max-height: 80vh;
     overflow-y: auto;
 }
@@ -42,56 +42,6 @@ au-dialog-container>div {
 .column-select-dialog .column-item:hover {
     background-color: var(--item-hover-background);
 }
-
-/* .column-select-dialog .checkbox-container {
-    display: inline-block;
-    position: relative;
-    padding-left: 25px;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.column-select-dialog .checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.column-select-dialog .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 18px;
-    width: 18px;
-    border-radius: 3px;
-} */
-
-.column-select-dialog .checkbox-container:hover input~.checkmark {
-    /* background-color: var(--checkbox-hover-background); */
-}
-
-.column-select-dialog .checkbox-container input:checked~.checkmark {
-    /* background-color: var(--checkbox-checked-background); */
-}
-
-/* .column-select-dialog .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.column-select-dialog .checkbox-container input:checked~.checkmark:after {
-    display: block;
-} */
-
-/* .column-select-dialog .checkbox-container .checkmark:after {
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-} */
 
 .column-select-dialog .column-name {
     flex-grow: 1;
@@ -137,4 +87,14 @@ au-dialog-container>div {
 .column-select-dialog .column-item.drag-over {
     border: 2px dashed var(--primary-color);
     background-color: var(--item-drag-over-background);
+}
+
+.column-list-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column-list {
+    width: 48%;
+    /* Adjust as needed */
 }

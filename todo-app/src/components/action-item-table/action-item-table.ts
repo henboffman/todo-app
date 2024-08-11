@@ -1,4 +1,4 @@
-import { bindable, inject } from 'aurelia';
+import { bindable, inject, observable } from 'aurelia';
 import { ActionItem, ActionItemContext, ActionItemPriority, ActionItemStatus } from '../../models/action-item';
 import { ActionItemService } from '../../services/action-item-service';
 import { TableFilterDialog } from '../../dialogs/table-filter-dialog/table-filter-dialog';
@@ -15,7 +15,7 @@ export class ActionItemTable {
     private sortField: keyof ActionItem | null = null;
     private sortDirection: 'asc' | 'desc' = 'asc';
     private filters: { [key: string]: string[] } = {};
-    private columns: { key: keyof ActionItem; name: string; selected: boolean; order: number }[] = [];
+    @observable private columns: { key: keyof ActionItem; name: string; selected: boolean; order: number }[] = [];
 
     constructor(private actionItemService: ActionItemService, private dialogService: DialogService) {
         this.loadColumnConfiguration();
@@ -60,6 +60,7 @@ export class ActionItemTable {
 
         const response = await dialog.closed;
         if (response.status === 'ok') {
+            console.log(response.value as { key: keyof ActionItem; name: string; selected: boolean; order: number }[]);
             this.columns = response.value as { key: keyof ActionItem; name: string; selected: boolean; order: number }[];
             this.updateSortedAndFilteredItems();
         }
