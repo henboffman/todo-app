@@ -12,18 +12,24 @@ import { ActionItemCard } from './components/action-item-card/action-item-card';
 import { ActionItemTable } from './components/action-item-table/action-item-table';
 import { DateFormatValueConverter } from './value-converters/date-format';
 import { TableFilterDialog } from './dialogs/table-filter-dialog/table-filter-dialog';
+import { RouterConfiguration } from '@aurelia/router';
+import { QuickTodoPage } from './routes/quick-todo-page/quick-todo-page';
+
+
 
 Aurelia
-  .register(DialogDefaultConfiguration)
-  .register(RelativeTimeValueConverter)
-  .register(ObjectEntriesValueConverter)
-  .register(DateFormatValueConverter)
-  .register(SettingsSidebar)
-  .register(CreateActionItemDialog)
-  .register(QuickTodoDialog)
-  .register(TableFilterDialog)
-  .register(ActionItemCard)
-  .register(ActionItemTable)
-  .app(Home)
+	.register(RouterConfiguration)
+	.register(DialogDefaultConfiguration)
+	.register(RelativeTimeValueConverter)
+	.register(ObjectEntriesValueConverter)
+	.register(DateFormatValueConverter)
+	.register(SettingsSidebar)
+	.register(CreateActionItemDialog)
+	.register(QuickTodoDialog)
+	.register(TableFilterDialog)
+	.register(ActionItemCard)
+	.register(ActionItemTable)
+	.register(QuickTodoPage)
+	.app(Home)
 
-  .start();
+	.start();

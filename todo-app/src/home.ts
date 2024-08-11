@@ -8,9 +8,18 @@ import { DatabaseService } from "./services/database-service";
 import { QuickTodoDialog } from "./dialogs/quick-todo-dialog/quick-todo-dialog";
 import { ActionItemService } from "./services/action-item-service";
 import { QuickTodoResult } from "./models/interfaces/quick-todo-result";
+import { IRoute, IRouteableComponent, route } from "@aurelia/router";
 
 @inject(ThemeService, DialogService, DatabaseService, ActionItemService)
-export class Home {
+
+export class Home implements IRouteableComponent {
+	static routes: IRoute[] = [
+		{
+			path: 'quick-todo',
+			component: () => import('./routes/quick-todo-page/quick-todo-page').then(m => m.QuickTodoPage)
+		},
+		// ... other routes
+	];
 
 	private sidebarIcons = [
 		{ icon: 'bi-layout-sidebar', action: 'toggleLeftSidebar', tooltip: 'Toggle Sidebar' },
@@ -20,6 +29,8 @@ export class Home {
 
 	private activeSection = '';
 	private leftSidebarVisible = false
+
+
 
 	constructor(
 		private themeService: ThemeService,

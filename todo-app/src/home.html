@@ -2,11 +2,17 @@
 	<require from="./home.css"></require>
 	<require from="./style/global.css"></require>
 	<div class="app-container home">
+		<au-viewport></au-viewport>
 		<div class="left-column">
 			<div repeat.for="item of sidebarIcons" class="sidebar-action-icon"
 				click.trigger="handleSidebarAction(item.action)" title="${item.tooltip}"
 				class.bind="item.action === activeSection ? 'active-section' : ''">
 				<i class="bi ${item.icon} icon"></i>
+			</div>
+			<div class="sidebar-action-icon">
+				<a load="quick-todo">
+					<i class="bi bi-bug"></i>
+				</a>
 			</div>
 		</div>
 
