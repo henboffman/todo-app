@@ -1,10 +1,10 @@
 import { render } from './helper';
-import { Home } from '../src/home';
+import { Home } from '../src/routes/home/home';
 
 describe('my-app', () => {
-  it('should render message', async () => {
-    const node = (await render('<my-app></my-app>', Home)).firstElementChild;
-    const text = node.textContent;
-    // expect(text.trim()).toBe('Hello World!');
-  });
+	it('should render message', async () => {
+		const node = (await render('<my-app></my-app>', Home)).firstElementChild;
+		const text = node.textContent;
+		// expect(text.trim()).toBe('Hello World!');
+	});
 });

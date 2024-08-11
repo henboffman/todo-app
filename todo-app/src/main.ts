@@ -1,5 +1,5 @@
 import Aurelia from 'aurelia';
-import { Home } from './home';
+import { Home } from './routes/home/home';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { RelativeTimeValueConverter } from './value-converters/relative-time-value-converter';
@@ -12,23 +12,30 @@ import { ActionItemCard } from './components/action-item-card/action-item-card';
 import { ActionItemTable } from './components/action-item-table/action-item-table';
 import { DateFormatValueConverter } from './value-converters/date-format';
 import { TableFilterDialog } from './dialogs/table-filter-dialog/table-filter-dialog';
+import { RouterConfiguration } from '@aurelia/router';
+import { QuickTodoPage } from './routes/quick-todo-page/quick-todo-page';
 import { ColumnSelectDialog } from './dialogs/column-select-dialog/column-select-dialog';
 import { SortValueConverter } from './value-converters/sort-value-converter';
+import { App } from './app';
+
+
 
 Aurelia
-  .register(DialogDefaultConfiguration)
-  .register(RelativeTimeValueConverter)
-  .register(ObjectEntriesValueConverter)
-  .register(DateFormatValueConverter)
-  .register(SortValueConverter)
+	.register(RouterConfiguration)
+	.register(DialogDefaultConfiguration)
+	.register(RelativeTimeValueConverter)
+	.register(ObjectEntriesValueConverter)
+	.register(DateFormatValueConverter)
+	.register(SortValueConverter)
 
-  .register(SettingsSidebar)
-  .register(CreateActionItemDialog)
-  .register(QuickTodoDialog)
-  .register(TableFilterDialog)
-  .register(ColumnSelectDialog)
-  .register(ActionItemCard)
-  .register(ActionItemTable)
-  .app(Home)
+	.register(SettingsSidebar)
+	.register(ColumnSelectDialog)
+	.register(CreateActionItemDialog)
+	.register(QuickTodoDialog)
+	.register(TableFilterDialog)
+	.register(ActionItemCard)
+	.register(ActionItemTable)
+	.register(QuickTodoPage)
+	.app(App)
 
-  .start();
+	.start();

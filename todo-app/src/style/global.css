@@ -54,6 +54,7 @@ body.dark-mode {
 	/* ... other dark mode styles */
 }
 
+
 .form-control {
 	background-color: var(--background-color);
 	color: var(--text-color);
