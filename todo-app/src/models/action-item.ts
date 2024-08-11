@@ -28,6 +28,9 @@ export enum ActionItemContext {
     Calls = 'Calls',
     Computer = 'Computer',
     Anywhere = 'Anywhere',
+    TeamChat = 'Team Chat',
+    Email = 'Email',
+    Meet = 'Meet',
     Chat = 'Chat',
     NotSelected = 'Not Selected'
 }
