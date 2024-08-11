@@ -1,11 +1,26 @@
-<!-- <template>
+<template>
 	<require from="./quick-todo-page.css"></require>
-	<div class="container-fluid h-100 d-flex justify-content-center align-items-center">
-		<div class="quick-todo-form ${isExpanded ? 'expanded' : ''}">
-			<div class="input-wrapper">
-				<i class="bi bi-check2-square"></i>
-				<input type="text" id="todo-input" value.bind="todoValue" placeholder="Add a todo...">
+	<div class="container-fluid h-100 d-flex justify-content-center align-items-center quick-todo">
+		<!-- <div class="quick-todo-form ${isExpanded ? 'expanded' : ''}"> -->
+		<div class="quick-todo-page">
+			<div class="row">
+				<div class="col-11">
+					<div class="input-wrapper">
+						<i class="bi bi-check2-square"></i>
+						<input type="text" id="todo-input" value.bind="todoValue" placeholder="Add a todo...">
+					</div>
+				</div>
+				<div class="col-1">
+					<button class="btn btn-primary" click.trigger="saveTodo()">Save</button>
+				</div>
 			</div>
+
+			<div class="instructions-wrapper">
+				<div class="expand-toggle" click.trigger="toggleExpand()">
+					<i class="bi bi-chevron-down"></i>
+				</div>
+			</div>
+
 			<div class="additional-fields">
 				<div class="field-wrapper">
 					<label for="due-date">Due Date</label>
@@ -18,12 +33,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="instructions-wrapper">
-				<div class="expand-toggle" click.trigger="toggleExpand()">
-					<i class="bi bi-chevron-down"></i>
-				</div>
-				<button class="btn btn-primary" click.trigger="saveTodo()">Save</button>
-			</div>
+
 		</div>
 	</div>
 
@@ -38,8 +48,4 @@
 			</div>
 		</div>
 	</div>
-</template> -->
-
-<template>
-	text
 </template>

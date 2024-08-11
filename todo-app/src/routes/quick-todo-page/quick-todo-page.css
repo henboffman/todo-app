@@ -1,3 +1,9 @@
+.quick-todo {
+	background-color: var(--dialog-background) !important;
+	width: 100%;
+	height: 100%;
+}
+
 .quick-todo-form {
 	width: 50vw;
 	padding: 20px;
@@ -7,6 +13,10 @@
 	border-radius: 10px;
 	box-shadow: 0 8px 44px rgba(0, 0, 0, 0.55);
 	transition: height 0.3s ease-in-out;
+}
+
+.quick-todo-page {
+	width: 40vw;
 }
 
 .input-wrapper {
@@ -87,4 +97,11 @@
 
 .quick-todo-form.expanded .expand-toggle i {
 	transform: rotate(180deg);
+}
+
+.toast-body {
+	background-color: var(--dialog-background);
+	color: var(--text-color);
+	border: 1px solid var(--muted-line-color);
+	border-radius: 5px;
 }

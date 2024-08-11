@@ -14,6 +14,7 @@ This project is bootstrapped by [aurelia/new](https://github.com/aurelia/new).
 - improve the editing functionality. the row isn't very easy to use
 - add a review mode that the user can engage at the end of the day (or on demand) to fill in additional details for new entries
 - add a better mechanism to promote "this is what you should do today"
+- In the quick-todo page, add a small section which lists out the 5 recently created items
 
 ## Start dev web server
 

@@ -9,44 +9,44 @@ export class QuickTodoPage {
 	private priorities: string[];
 
 	constructor() {
-		// this.priorities = Object.values(ActionItemPriority);
+		this.priorities = Object.values(ActionItemPriority);
 	}
 
 	attached() {
 		console.log("load todo page");
-		// document.getElementById("todo-input")?.focus();
+		document.getElementById("todo-input")?.focus();
 	}
 
-	// async saveTodo() {
-	// 	if (this.todoValue !== "") {
-	// 		console.log("Saving todo:", {
-	// 			title: this.todoValue,
-	// 			dueDate: this.dueDate,
-	// 			priority: this.priority
-	// 		});
+	async saveTodo() {
+		if (this.todoValue !== "") {
+			console.log("Saving todo:", {
+				title: this.todoValue,
+				dueDate: this.dueDate,
+				priority: this.priority
+			});
 
-	// 		this.showSuccessToast();
+			this.showSuccessToast();
 
-	// 		this.todoValue = "";
-	// 		this.dueDate = "";
-	// 		this.priority = "Medium";
-	// 		this.isExpanded = false;
-	// 	}
-	// }
+			this.todoValue = "";
+			this.dueDate = "";
+			this.priority = "Medium";
+			this.isExpanded = false;
+		}
+	}
 
-	// toggleExpand() {
-	// 	this.isExpanded = !this.isExpanded;
-	// }
+	toggleExpand() {
+		this.isExpanded = !this.isExpanded;
+	}
 
-	// showSuccessToast() {
-	// 	const toastLiveExample = document.getElementById('liveToast');
-	// 	const toastBodyElement = toastLiveExample?.querySelector('.toast-body span');
+	showSuccessToast() {
+		const toastLiveExample = document.getElementById('successToast');
+		const toastBodyElement = toastLiveExample?.querySelector('.toast-body span');
 
-	// 	if (toastBodyElement) {
-	// 		toastBodyElement.textContent = "Created new todo item";
-	// 	}
+		if (toastBodyElement) {
+			toastBodyElement.textContent = "Created new todo item";
+		}
 
-	// 	const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
-	// 	toastBootstrap.show();
-	// }
+		const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+		toastBootstrap.show();
+	}
 }

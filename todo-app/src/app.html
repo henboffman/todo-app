@@ -1,0 +1,55 @@
+<!-- app.html -->
+<template>
+	<require from="./style/global.css"></require>
+	<require from="./app.css"></require>
+	<div class="app-container">
+		<div class="left-column">
+
+
+
+			<div class="sidebar-action-icon" click.trigger="toggleLeftSidebar()" title="Toggle Sidebar">
+				<i class="bi-layout-sidebar"></i>
+			</div>
+			<div class="sidebar-action-icon" title="Dashboard">
+				<a load="">
+					<i class="bi bi-house"></i>
+				</a>
+			</div>
+			<div class="sidebar-action-icon" title="Focused Input">
+				<a load="quick-todo">
+					<i class="bi bi-bug"></i>
+				</a>
+			</div>
+			<div repeat.for="item of sidebarIcons" class="sidebar-action-icon"
+				click.trigger="handleSidebarAction(item.action)" title="${item.tooltip}"
+				class="${item.action === activeSection ? 'active-section' : ''}">
+				<i class="bi ${item.icon} icon"></i>
+			</div>
+		</div>
+
+		<!-- <div class="mobile-header">
+			<div class="sidebar-action-icon" click.trigger="toggleLeftSidebar()">
+				<i class="bi bi-layout-sidebar"></i>
+			</div>
+		</div> -->
+
+		<div class="content-sidebar ${leftSidebarVisible ? 'visible' : 'hidden'}">
+			<div repeat.for="[key, value] of contentSections | objectEntries">
+				<div if.bind="value.visible">
+					<settings-sidebar if.bind="value.component == 'settings-sidebar'"></settings-sidebar>
+					<!-- <compose view-model="${value.component}"></compose> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="main-content">
+			<au-viewport></au-viewport>
+		</div>
+
+		<footer class="app-footer">
+			<div class="footer-content">
+				<!-- Footer content here -->
+			</div>
+		</footer>
+	</div>
+</template>
