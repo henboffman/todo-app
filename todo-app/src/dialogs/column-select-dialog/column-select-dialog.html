@@ -1,0 +1,30 @@
+<template>
+    <require from="./column-select-dialog.css"></require>
+    <div class="column-select-dialog">
+        <h2>Select and Reorder Columns</h2>
+        <div class="column-list-container">
+            <div class="column-list">
+                <div class="column-item" repeat.for="column of columns.slice(0, Math.ceil(columns.length / 2))">
+                    <div class="form-check">
+                        <label for="${column.name}" class="form-check-label column-name">${column.name}</label>
+                        <input type="checkbox" class="form-check-input" id="${column.name}"
+                            checked.bind="column.selected" disabled.bind="column.key === 'title'">
+                    </div>
+                </div>
+            </div>
+            <div class="column-list">
+                <div class="column-item" repeat.for="column of columns.slice(Math.ceil(columns.length / 2))">
+                    <div class="form-check">
+                        <label for="${column.name}" class="form-check-label column-name">${column.name}</label>
+                        <input type="checkbox" class="form-check-input" id="${column.name}"
+                            disabled.bind="column.key === 'title'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-actions">
+            <button click.trigger="save()" class="save-btn">Save</button>
+            <button click.trigger="cancel()" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+</template>

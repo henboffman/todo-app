@@ -14,6 +14,7 @@ import { DateFormatValueConverter } from './value-converters/date-format';
 import { TableFilterDialog } from './dialogs/table-filter-dialog/table-filter-dialog';
 import { RouterConfiguration } from '@aurelia/router';
 import { QuickTodoPage } from './routes/quick-todo-page/quick-todo-page';
+import { ColumnSelectDialog } from './dialogs/column-select-dialog/column-select-dialog';
 
 
 
@@ -24,6 +25,7 @@ Aurelia
 	.register(ObjectEntriesValueConverter)
 	.register(DateFormatValueConverter)
 	.register(SettingsSidebar)
+	.register(ColumnSelectDialog)
 	.register(CreateActionItemDialog)
 	.register(QuickTodoDialog)
 	.register(TableFilterDialog)

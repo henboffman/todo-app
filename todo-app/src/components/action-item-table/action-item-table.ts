@@ -1,7 +1,8 @@
-import { bindable, inject } from 'aurelia';
+import { bindable, inject, observable } from 'aurelia';
 import { ActionItem, ActionItemContext, ActionItemPriority, ActionItemStatus } from '../../models/action-item';
 import { ActionItemService } from '../../services/action-item-service';
 import { TableFilterDialog } from '../../dialogs/table-filter-dialog/table-filter-dialog';
+import { ColumnSelectDialog } from '../../dialogs/column-select-dialog/column-select-dialog';
 import { DialogService } from '@aurelia/dialog';
 
 @inject(ActionItemService, DialogService)
@@ -14,8 +15,11 @@ export class ActionItemTable {
     private sortField: keyof ActionItem | null = null;
     private sortDirection: 'asc' | 'desc' = 'asc';
     private filters: { [key: string]: string[] } = {};
+    @observable private columns: { key: keyof ActionItem; name: string; selected: boolean; order: number }[] = [];
 
-    constructor(private actionItemService: ActionItemService, private dialogService: DialogService) { }
+    constructor(private actionItemService: ActionItemService, private dialogService: DialogService) {
+        this.loadColumnConfiguration();
+    }
 
     attached() {
         console.log('ActionItemTable attached');
@@ -28,6 +32,38 @@ export class ActionItemTable {
 
     editItem(item: ActionItem) {
         this.editingItem = item;
+    }
+
+    loadColumnConfiguration() {
+        const savedColumns = localStorage.getItem('actionItemColumns');
+        if (savedColumns) {
+            this.columns = JSON.parse(savedColumns);
+        } else {
+            // Default configuration
+            this.columns = [
+                { key: 'title', name: 'Title', selected: true, order: 1 },
+                { key: 'status', name: 'Status', selected: true, order: 2 },
+                { key: 'dueDate', name: 'Due Date', selected: true, order: 3 },
+                { key: 'priority', name: 'Priority', selected: true, order: 4 },
+                { key: 'context', name: 'Context', selected: true, order: 5 },
+            ];
+        }
+    }
+
+    async openColumnSelectDialog() {
+        const { dialog } = await this.dialogService.open({
+            component: () => ColumnSelectDialog,
+            lock: true,
+            startingZIndex: 10,
+            keyboard: ["Escape"],
+        });
+
+        const response = await dialog.closed;
+        if (response.status === 'ok') {
+            console.log(response.value as { key: keyof ActionItem; name: string; selected: boolean; order: number }[]);
+            this.columns = response.value as { key: keyof ActionItem; name: string; selected: boolean; order: number }[];
+            this.updateSortedAndFilteredItems();
+        }
     }
 
     async saveItem(item: ActionItem) {

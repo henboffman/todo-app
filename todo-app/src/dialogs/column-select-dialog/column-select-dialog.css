@@ -1,0 +1,100 @@
+/* src/dialogs/column-select-dialog/column-select-dialog.css */
+au-dialog-container {
+    background-color: rgba(0, 0, 0, 0.15);
+    padding-bottom: 10vh;
+}
+
+au-dialog-container>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.column-select-dialog {
+    background-color: var(--dialog-background);
+    border-radius: 8px;
+    padding: 20px;
+    width: 40vw;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.column-select-dialog h2 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.column-select-dialog .column-list {
+    margin-bottom: 20px;
+}
+
+.column-select-dialog .column-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--item-background);
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: move;
+}
+
+.column-select-dialog .column-item:hover {
+    background-color: var(--item-hover-background);
+}
+
+.column-select-dialog .column-name {
+    flex-grow: 1;
+    color: var(--text-color);
+}
+
+.column-select-dialog .drag-handle {
+    /* color: var(--text-muted-color); */
+    cursor: move;
+    user-select: none;
+}
+
+.column-select-dialog .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.column-select-dialog .save-btn,
+.column-select-dialog .cancel-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.column-select-dialog .save-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.column-select-dialog .cancel-btn {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.column-select-dialog .save-btn:hover,
+.column-select-dialog .cancel-btn:hover {
+    opacity: 0.8;
+}
+
+
+.column-select-dialog .column-item.drag-over {
+    border: 2px dashed var(--primary-color);
+    background-color: var(--item-drag-over-background);
+}
+
+.column-list-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column-list {
+    width: 48%;
+    /* Adjust as needed */
+}
