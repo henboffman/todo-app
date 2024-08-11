@@ -12,16 +12,21 @@ import { ActionItemCard } from './components/action-item-card/action-item-card';
 import { ActionItemTable } from './components/action-item-table/action-item-table';
 import { DateFormatValueConverter } from './value-converters/date-format';
 import { TableFilterDialog } from './dialogs/table-filter-dialog/table-filter-dialog';
+import { ColumnSelectDialog } from './dialogs/column-select-dialog/column-select-dialog';
+import { SortValueConverter } from './value-converters/sort-value-converter';
 
 Aurelia
   .register(DialogDefaultConfiguration)
   .register(RelativeTimeValueConverter)
   .register(ObjectEntriesValueConverter)
   .register(DateFormatValueConverter)
+  .register(SortValueConverter)
+
   .register(SettingsSidebar)
   .register(CreateActionItemDialog)
   .register(QuickTodoDialog)
   .register(TableFilterDialog)
+  .register(ColumnSelectDialog)
   .register(ActionItemCard)
   .register(ActionItemTable)
   .app(Home)

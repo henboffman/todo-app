@@ -28,6 +28,7 @@ export enum ActionItemContext {
     Calls = 'Calls',
     Computer = 'Computer',
     Anywhere = 'Anywhere',
+    Chat = 'Chat',
     NotSelected = 'Not Selected'
 }
 
@@ -41,6 +42,7 @@ export class ActionItem {
     priority: ActionItemPriority;
     context: ActionItemContext;
     project: string | null;
+    whoFor: string | null;
     tags: string[];
     estimatedTime: number | null;
     actualTime: number | null;
@@ -78,6 +80,7 @@ export class ActionItem {
         this.createdDate = new Date().toISOString();
         this.createdBy = 'Current User'; // Replace with actual user ID or name
         this.tags = [];
+        this.whoFor = null;
         this.attachments = [];
         this.subActions = [];
         this.isVisible = true;
