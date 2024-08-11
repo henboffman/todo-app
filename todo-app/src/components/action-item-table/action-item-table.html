@@ -3,7 +3,11 @@
 <template>
     <require from="./action-item-table.css"></require>
     <div class="table-responsive">
-        <button click.trigger="openColumnSelectDialog()">Select Columns</button>
+        <div class="row mb-2">
+            <div class="col d-flex justify-content-end">
+                <button class="btn btn-outline-custom" click.trigger="openColumnSelectDialog()">Select Columns</button>
+            </div>
+        </div>
         <table class="table table-dark table-hover action-item-table">
             <thead>
                 <tr>
