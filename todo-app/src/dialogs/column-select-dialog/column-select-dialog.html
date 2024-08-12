@@ -17,7 +17,7 @@
                     <div class="form-check">
                         <label for="${column.name}" class="form-check-label column-name">${column.name}</label>
                         <input type="checkbox" class="form-check-input" id="${column.name}"
-                            disabled.bind="column.key === 'title'">
+                            checked.bind="column.selected" disabled.bind="column.key === 'title'">
                     </div>
                 </div>
             </div>

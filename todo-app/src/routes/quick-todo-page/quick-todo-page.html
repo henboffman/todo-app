@@ -1,39 +1,44 @@
 <template>
 	<require from="./quick-todo-page.css"></require>
-	<div class="container-fluid h-100 d-flex justify-content-center align-items-center quick-todo">
-		<!-- <div class="quick-todo-form ${isExpanded ? 'expanded' : ''}"> -->
-		<div class="quick-todo-page">
-			<div class="row">
-				<div class="col-11">
-					<div class="input-wrapper">
+	<div class="quick-todo-page">
+		<div class="quick-todo-container">
+			<div class="quick-todo-page-form ${isExpanded ? 'expanded' : ''}">
+				<div class="quick-todo-main-content">
+					<div class="quick-todo-input-wrapper">
 						<i class="bi bi-check2-square"></i>
 						<input type="text" id="todo-input" value.bind="todoValue" placeholder="Add a todo...">
 					</div>
+					<button class="btn btn-primary quick-todo-save-btn" click.trigger="saveTodo()">Save</button>
 				</div>
-				<div class="col-1">
-					<button class="btn btn-primary" click.trigger="saveTodo()">Save</button>
+				<div class="quick-todo-toggle-wrapper">
+					<div class="quick-todo-toggle" click.trigger="toggleExpand()">
+						<span>Show ${isExpanded? 'less': 'more'} fields</span>
+						<i class="bi bi-chevron-down"></i>
+					</div>
 				</div>
-			</div>
-
-			<div class="instructions-wrapper">
-				<div class="expand-toggle" click.trigger="toggleExpand()">
-					<i class="bi bi-chevron-down"></i>
-				</div>
-			</div>
-
-			<div class="additional-fields">
-				<div class="field-wrapper">
-					<label for="due-date">Due Date</label>
-					<input type="date" id="due-date" value.bind="dueDate">
-				</div>
-				<div class="field-wrapper">
-					<label for="priority">Priority</label>
-					<select class="form-control" id="priority" value.bind="priority">
-						<option repeat.for="priority of priorities" value.bind="priority">${priority}</option>
-					</select>
+				<div class="quick-todo-additional-fields" show.bind="isExpanded">
+					<div class="quick-todo-field-wrapper">
+						<label for="due-date">Due Date</label>
+						<input type="date" id="due-date" value.bind="dueDate">
+					</div>
+					<div class="quick-todo-field-wrapper">
+						<label for="priority">Priority</label>
+						<select class="form-control" id="priority" value.bind="priority">
+							<option repeat.for="priority of priorities" value.bind="priority">${priority}</option>
+						</select>
+					</div>
 				</div>
 			</div>
 
+			<div class="recently-added-section styled-list" show.bind="recentlyAdded.length > 0">
+				<h2>Recently Added</h2>
+				<div class="recently-added-items">
+					<div class="recently-added-item" repeat.for="recent of recentlyAdded">
+						<span class="item-title">${recent.title}</span>
+						<span class="item-time">${recent.createdDate | relativeTime}</span>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 

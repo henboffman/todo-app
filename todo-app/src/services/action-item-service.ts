@@ -47,12 +47,13 @@ export class ActionItemService {
 			.slice(0, limit);
 	}
 
-	async createActionItem(title: string, dueDate: string, priority: ActionItemPriority) {
+	async createActionItem(title: string, dueDate: string, priority: ActionItemPriority): Promise<ActionItem> {
 		const actionItem = new ActionItem(title);
 		actionItem.dueDate = dueDate;
 		actionItem.priority = priority;
 		await this.databaseService.addItem(DatabaseStores.ACTION_ITEMS, actionItem);
 		await this.loadActionItems();
+		return actionItem;
 	}
 
 	async updateItem(item: ActionItem): Promise<void> {

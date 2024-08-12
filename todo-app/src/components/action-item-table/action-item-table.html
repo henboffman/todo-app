@@ -31,7 +31,7 @@
             <tbody>
                 <tr repeat.for="item of sortedAndFilteredItems"
                     class="${item.status === 'Completed' ? 'completed-item' : ''} ${item.animate ? 'animate' : ''}">
-                    <td>
+                    <td class="checkbox-column">
                         <label class="custom-checkbox ${item.animate ? 'animate' : ''}">
                             <input type="checkbox" checked.bind="item.status === 'Completed'"
                                 change.trigger="toggleCompleted(item)">

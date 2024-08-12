@@ -27,11 +27,13 @@ au-dialog-container>div {
     from {
         max-height: 0;
         opacity: 0;
+        transform: translateY(-20px);
     }
 
     to {
         max-height: 100px;
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -39,11 +41,13 @@ au-dialog-container>div {
     from {
         max-height: 100px;
         opacity: 1;
+        transform: translateY(0);
     }
 
     to {
         max-height: 0;
         opacity: 0;
+        transform: translateY(-20px);
     }
 }
 
@@ -91,7 +95,7 @@ au-dialog-container>div {
     outline: none;
 }
 
-/* .additional-fields {
+.additional-fields {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
@@ -106,21 +110,6 @@ au-dialog-container>div {
     max-height: 100px;
     opacity: 1;
     transform: translateY(0);
-} */
-
-.additional-fields {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.quick-todo-dialog.expanded .additional-fields {
-    max-height: 100px;
-    opacity: 1;
 }
 
 .field-wrapper {

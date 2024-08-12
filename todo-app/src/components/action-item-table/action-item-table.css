@@ -239,3 +239,8 @@
     color: var(--icon-highlight-color);
     font-weight: 600;
 }
+
+.checkbox-column {
+    width: 30px;
+    align-items: center;
+}
