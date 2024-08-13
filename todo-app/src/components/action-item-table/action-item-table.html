@@ -1,58 +1,134 @@
-<!-- src/components/action-item-table/action-item-table.html -->
-
 <template>
-    <require from="./action-item-table.css"></require>
-    <div class="table-responsive">
-        <div class="row mb-2">
-            <div class="col d-flex justify-content-end">
-                <button class="btn btn-outline-custom" click.trigger="openColumnSelectDialog()">Select Columns</button>
-            </div>
-        </div>
-        <table class="table table-dark table-hover action-item-table">
-            <thead>
-                <tr>
-                    <th></th> <!-- Checkbox column -->
-                    <th repeat.for="column of columns | sort:'order'" if.bind="column.selected">
-                        ${column.name}
-                        <span class="sort-icons">
-                            <i class="bi bi-sort-down" show.bind="sortDirection == 'desc'"
-                                click.trigger="sort(column.key, 'asc')"
-                                class.bind="sortField == column.key ? 'active': ''"></i>
-                            <i class="bi bi-sort-up" show.bind="sortDirection == 'asc'"
-                                click.trigger="sort(column.key, 'desc')"
-                                class.bind="sortField == column.key ? 'active': ''"></i>
-                        </span>
-                        <i class="bi bi-funnel ${filters[column.key]?.length ? 'active' : ''}"
-                            click.trigger="toggleFilter(column.key)"></i>
-                    </th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr repeat.for="item of sortedAndFilteredItems"
-                    class="${item.status === 'Completed' ? 'completed-item' : ''} ${item.animate ? 'animate' : ''}">
-                    <td class="checkbox-column">
-                        <label class="custom-checkbox ${item.animate ? 'animate' : ''}">
-                            <input type="checkbox" checked.bind="item.status === 'Completed'"
-                                change.trigger="toggleCompleted(item)">
-                            <span class="checkmark"></span>
-                        </label>
-                    </td>
-                    <td repeat.for="column of columns | sort:'order'" if.bind="column.selected">
-                        <input if.bind="editingItem === item && column.key !== 'title'" type="text" class="form-control"
-                            value.bind="item[column.key]">
-                        <span else>${item[column.key]}</span>
-                    </td>
-                    <td>
-                        <!-- Action buttons -->
-                        <button if.bind="editingItem === item" click.trigger="saveItem(item)">Save</button>
-                        <button if.bind="editingItem === item" click.trigger="cancelEdit()">Cancel</button>
-                        <i class="bi bi-pencil icon mx-2" if.bind="editingItem !== item"
-                            click.trigger="editItem(item)"></i>
-                        <i class="bi bi-trash icon" click.trigger="deleteItem(item)"></i>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+	<require from="./action-item-table.css"></require>
+	<div class="table-responsive">
+		<table class="table table-dark table-hover action-item-table">
+			<thead>
+				<tr>
+					<th></th>
+					<th scope="col">
+						Title
+						<span class="sort-icons">
+							<i class="bi bi-sort-alpha-down" show.bind="sortDirection == 'desc'"
+								click.trigger="sort('title', 'asc')"
+								class.bind="sortField == 'title'? 'active': ''"></i>
+							<i class="bi bi-sort-alpha-up" show.bind="sortDirection == 'asc'"
+								click.trigger="sort('title', 'desc')"
+								class.bind="sortField == 'title'? 'active': ''"></i>
+						</span>
+						<!-- <i class="bi bi-funnel ${filters.title?.length ? 'active' : ''}"
+                        click.trigger="toggleFilter('title')"></i> -->
+					</th>
+					<th scope="col">
+						Status
+						<span class="sort-icons">
+							<i class="bi bi-sort-down" show.bind="sortDirection == 'desc'"
+								click.trigger="sort('status', 'asc')"
+								class.bind="sortField == 'status'? 'active': ''"></i>
+							<i class="bi bi-sort-up" show.bind="sortDirection == 'asc'"
+								click.trigger="sort('status', 'desc')"
+								class.bind="sortField == 'status'? 'active': ''"></i>
+						</span>
+						<i class="bi bi-funnel ${filters.status?.length ? 'active' : ''}"
+							click.trigger="toggleFilter('status')"></i>
+					</th>
+					<th scope="col">
+						Due Date
+						<span class="sort-icons">
+							<i class="bi bi-sort-numeric-down" show.bind="sortDirection == 'desc'"
+								click.trigger="sort('dueDate', 'asc')"
+								class.bind="sortField == 'dueDate'? 'active': ''"></i>
+							<i class="bi bi-sort-numeric-up" show.bind="sortDirection == 'asc'"
+								click.trigger="sort('dueDate', 'desc')"
+								class.bind="sortField == 'dueDate'? 'active': ''"></i>
+						</span>
+						<i class="bi bi-funnel ${filters.dueDate?.length ? 'active' : ''}"
+							click.trigger="toggleFilter('dueDate')"></i>
+					</th>
+					<th scope="col">
+						Priority
+						<span class="sort-icons">
+							<i class="bi bi-sort-down" show.bind="sortDirection == 'desc'"
+								click.trigger="sort('priority', 'asc')"
+								class.bind="sortField == 'priority'? 'active': ''"></i>
+							<i class="bi bi-sort-up" show.bind="sortDirection == 'asc'"
+								click.trigger="sort('priority', 'desc')"
+								class.bind="sortField == 'priority'? 'active': ''"></i>
+						</span>
+						<i class="bi bi-funnel ${filters.priority?.length ? 'active' : ''}"
+							click.trigger="toggleFilter('priority')"></i>
+					</th>
+					<th scope="col">
+						Context
+						<span class="sort-icons">
+							<i class="bi bi-sort-alpha-down" show.bind="sortDirection == 'desc'"
+								click.trigger="sort('context', 'asc')"
+								class.bind="sortField == 'context'? 'active': ''"></i>
+							<i class="bi bi-sort-alpha-up" show.bind="sortDirection == 'asc'"
+								click.trigger="sort('context', 'desc')"
+								class.bind="sortField == 'context'? 'active': ''"></i>
+						</span>
+						<i class="bi bi-funnel ${filters.context?.length ? 'active' : ''}"
+							click.trigger="toggleFilter('context')"></i>
+					</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr repeat.for="item of sortedAndFilteredItems"
+					class="${item.status === 'Completed' ? 'completed-item' : ''} ${item.animate ? 'animate' : ''}">
+					<td class="checkbox-column">
+						<label class="custom-checkbox ${item.animate ? 'animate' : ''}">
+							<input type="checkbox" checked.bind="item.status === 'Completed'"
+								change.trigger="toggleCompleted(item)">
+							<span class="checkmark"></span>
+						</label>
+					</td>
+					<td class="item-title" class.bind="item.status=='Completed' ? 'completed' : '' ">
+						<input if.bind="editingItem === item" type="text" class="form-control" value.bind="item.title">
+						<span else>${item.title}</span>
+					</td>
+					<td class.bind="item.status=='Completed' ? 'completed' : '' ">
+						<select if.bind="editingItem === item" value.bind="item.status" class="form-control">
+							<option repeat.for="status of statusOptions" value.bind="status">${status}</option>
+						</select>
+						<span else>${item.status}</span>
+					</td>
+					<td class.bind="item.status=='Completed' ? 'completed' : '' ">
+						<input if.bind="editingItem === item" type="date" value.bind="item.dueDate"
+							class="form-control">
+						<span else>${item.dueDate | dateFormat}</span>
+					</td>
+					<td class.bind="item.status=='Completed' ? 'completed' : '' ">
+						<select if.bind="editingItem === item" value.bind="item.priority" class="form-control">
+							<option repeat.for="priority of priorityOptions" value.bind="priority">${priority}</option>
+						</select>
+						<span else>${item.priority}</span>
+					</td>
+					<td class.bind="item.status=='Completed' ? 'completed' : '' ">
+						<select if.bind="editingItem === item" value.bind="item.context" class="form-control">
+							<option repeat.for="context of contextOptions" value.bind="context">${context}</option>
+						</select>
+						<span else>${item.context}</span>
+					</td>
+					<td>
+						<button if.bind="editingItem === item" click.trigger="saveItem(item)">Save</button>
+
+						<button if.bind="editingItem === item" click.trigger="cancelEdit()">Cancel</button>
+
+						<i class="bi bi-pencil icon mx-2" if.bind="editingItem !== item"
+							click.trigger="editItem(item)"></i>
+
+						<!-- <button if.bind="editingItem !== item" click.trigger="editItem(item)">
+                    </button> -->
+
+						<i class="bi bi-trash icon" click.trigger="deleteItem(item)"></i>
+						<!-- <button click.trigger="deleteItem(item)">
+                        <i class="bi bi-trash">
+
+                    </button> -->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </template>
