@@ -8,21 +8,41 @@
 					<h1>Home</h1>
 				</div>
 				<div class="col-auto">
-					<button class="btn btn-outline-custom quick-dialog-button" click.trigger="openQuickTodoDialog()">
+					<button class="btn btn-small btn-outline-custom quick-dialog-button"
+						click.trigger="openQuickTodoDialog()">
 						Create New Action Item
 					</button>
 				</div>
 			</div>
-
-			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-3">
-				<div class="col" repeat.for="item of actionItemService.upcomingItems">
-					<action-item-card action-item.bind="item"></action-item-card>
+			<div class="section-header">
+				<h3 click.trigger="toggleSection('dueSoon')">
+					Due soon
+					<i class="bi bi-chevron-right section-caret ${dueSoonExpanded ? 'expanded' : ''}"></i>
+				</h3>
+			</div>
+			<div class="section-content ${dueSoonExpanded ? 'expanded' : ''}" ref="dueSoonContent">
+				<div class="section-content-inner">
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-3">
+						<div class="col" repeat.for="item of actionItemService.upcomingItems">
+							<action-item-card action-item.bind="item"></action-item-card>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="col-12 mt-5">
-			<action-item-table action-items.bind="actionItemService.actionItems"></action-item-table>
+			<div class="section-header">
+				<h3 click.trigger="toggleSection('allItems')">
+					All items
+					<i class="bi bi-chevron-right section-caret ${allItemsExpanded ? 'expanded' : ''}"></i>
+				</h3>
+			</div>
+			<div class="section-content ${allItemsExpanded ? 'expanded' : ''}" ref="allItemsContent">
+				<div class="section-content-inner">
+					<action-item-table action-items.bind="actionItemService.actionItems"></action-item-table>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>

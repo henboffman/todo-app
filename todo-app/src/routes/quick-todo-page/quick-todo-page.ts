@@ -1,4 +1,4 @@
-import { inject } from 'aurelia';
+import { inject, observable } from 'aurelia';
 import { ActionItem, ActionItemPriority } from '../../models/action-item';
 import * as bootstrap from 'bootstrap';
 import { ActionItemService } from '../../services/action-item-service';
@@ -10,6 +10,7 @@ export class QuickTodoPage {
 	private priority: ActionItemPriority = ActionItemPriority.Medium;
 	private isExpanded: boolean = false;
 	private priorities: string[];
+	@observable recentItemsSize: number = 5;
 
 	private recentlyAdded: ActionItem[] = [];
 
@@ -19,7 +20,20 @@ export class QuickTodoPage {
 
 	attached() {
 		console.log("load todo page");
+		window.addEventListener('keydown', this.handleKeyDown.bind(this));
 		document.getElementById("todo-input")?.focus();
+	}
+
+	recentItemsSizeChanged() {
+		if (this.recentItemsSize < 1) {
+			this.recentItemsSize = 1;
+		}
+	}
+
+	async handleKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Enter' && this.todoValue !== "") {
+			await this.saveTodo();
+		}
 	}
 
 	async saveTodo() {
@@ -53,7 +67,7 @@ export class QuickTodoPage {
 
 	addToRecentlyAdded(item: ActionItem) {
 		this.recentlyAdded.unshift(item);
-		if (this.recentlyAdded.length > 5) {
+		if (this.recentlyAdded.length > this.recentItemsSize) {
 			this.recentlyAdded.pop();
 		}
 	}

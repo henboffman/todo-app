@@ -23,8 +23,8 @@
 }
 
 .quick-dialog-button {
-	max-width: 200px !important;
-	font-size: 1.3em;
+	/* max-width: 200px !important; */
+	/* font-size: 1em; */
 	margin: 10px;
 }
 
@@ -178,8 +178,51 @@ ux-dialog-container {
 }
 
 .quick-dialog-button {
-	max-width: 200px !important;
-	font-size: 1.3em;
+	/* max-width: 200px !important; */
+	/* font-size: 1.3em; */
 	margin: 10px;
 
+}
+
+.section-header {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.section-header h3 {
+	display: flex;
+	align-items: center;
+}
+
+.section-caret {
+	transition: transform 0.3s ease;
+	margin-left: 10px;
+}
+
+.section-caret.expanded {
+	transform: rotate(90deg);
+}
+
+.section-content {
+	height: 0;
+	overflow: hidden;
+	transition: height 0.3s ease-out, padding 0.3s ease-out;
+	padding: 0 20px;
+}
+
+.section-content.expanded {
+	transition: height 0.3s ease-in, padding 0.3s ease-in;
+}
+
+.section-content-inner {
+	opacity: 0;
+	transition: opacity 0.3s ease-out;
+	padding: 20px 0;
+}
+
+.section-content.expanded .section-content-inner {
+	opacity: 1;
+	transition: opacity 0.3s ease-in;
 }

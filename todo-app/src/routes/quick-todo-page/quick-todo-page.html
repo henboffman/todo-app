@@ -32,6 +32,15 @@
 
 			<div class="recently-added-section styled-list" show.bind="recentlyAdded.length > 0">
 				<h2>Recently Added</h2>
+				<div class="mb-3 row">
+					<label for="recentItemSize" class="col-sm-2 col-form-label">Items to show: </label>
+					<div class="col-sm-2">
+						<input type="number" class="form-control" id="recentItemSize" value.bind="recentItemsSize"
+							min="1">
+					</div>
+				</div>
+
+
 				<div class="recently-added-items">
 					<div class="recently-added-item" repeat.for="recent of recentlyAdded">
 						<span class="item-title">${recent.title}</span>
