@@ -21,7 +21,15 @@ export class QuickTodoPage {
 	attached() {
 		console.log("load todo page");
 		window.addEventListener('keydown', this.handleKeyDown.bind(this));
-		document.getElementById("todo-input")?.focus();
+		const todoInput = document.getElementById("todo-input") as HTMLTextAreaElement;
+		todoInput?.focus();
+		todoInput?.addEventListener('input', this.autoResizeTextarea);
+	}
+
+	detached() {
+		window.removeEventListener('keydown', this.handleKeyDown.bind(this));
+		const todoInput = document.getElementById("todo-input") as HTMLTextAreaElement;
+		todoInput?.removeEventListener('input', this.autoResizeTextarea);
 	}
 
 	recentItemsSizeChanged() {
@@ -31,13 +39,20 @@ export class QuickTodoPage {
 	}
 
 	async handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 'Enter' && this.todoValue !== "") {
+		if (event.key === 'Enter' && !event.shiftKey && this.todoValue.trim() !== "") {
+			event.preventDefault();
 			await this.saveTodo();
 		}
 	}
 
+	autoResizeTextarea = () => {
+		const textarea = document.getElementById("todo-input") as HTMLTextAreaElement;
+		textarea.style.height = 'auto';
+		textarea.style.height = textarea.scrollHeight + 'px';
+	}
+
 	async saveTodo() {
-		if (this.todoValue !== "") {
+		if (this.todoValue.trim() !== "") {
 			console.log("Saving todo:", {
 				title: this.todoValue,
 				dueDate: this.dueDate,
@@ -56,12 +71,14 @@ export class QuickTodoPage {
 				this.dueDate = "";
 				this.priority = ActionItemPriority.Medium;
 				this.isExpanded = false;
+
+				const textarea = document.getElementById("todo-input") as HTMLTextAreaElement;
+				textarea.style.height = 'auto';
+				textarea.focus();
 			})
 				.catch((error) => {
 					console.error("Error saving todo:", error);
 				});
-
-
 		}
 	}
 

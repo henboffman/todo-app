@@ -34,10 +34,15 @@ body {
 	--critical-color: #ff585b;
 	--warning-color: #c7a200;
 	--complete-color: #41ee95;
+	--purple: #5c65f3;
+	--salmon: #f95959;
+	--green-neon: #24f7a9;
+	--blue: #33b2e0;
+	--blue-neon: #0fbbff;
 }
 
 body.dark-mode {
-	--background-color: black;
+	--background-color: #232225;
 	--highlight-color: #313138;
 	--icon-highlight-color: #6cd5ff;
 	--icon-highlight-color-rgb: 0, 0, 0, 0.5;

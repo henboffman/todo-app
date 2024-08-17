@@ -6,7 +6,8 @@
 				<div class="quick-todo-main-content">
 					<div class="quick-todo-input-wrapper">
 						<i class="bi bi-check2-square"></i>
-						<input type="text" id="todo-input" value.bind="todoValue" placeholder="Add a todo...">
+						<textarea id="todo-input" value.bind="todoValue" placeholder="Add a todo..."
+							rows="1"></textarea>
 					</div>
 					<button class="btn btn-primary quick-todo-save-btn" click.trigger="saveTodo()">Save</button>
 				</div>
@@ -33,13 +34,13 @@
 			<div class="recently-added-section styled-list" show.bind="recentlyAdded.length > 0">
 				<h2>Recently Added</h2>
 				<div class="mb-3 row">
-					<label for="recentItemSize" class="col-sm-2 col-form-label">Items to show: </label>
-					<div class="col-sm-2">
+					<label for="recentItemSize" class="col-sm-2 col-form-label" style="max-width:150px;">Items to show:
+					</label>
+					<div class="col-sm-1" style="max-width:90px;">
 						<input type="number" class="form-control" id="recentItemSize" value.bind="recentItemsSize"
 							min="1">
 					</div>
 				</div>
-
 
 				<div class="recently-added-items">
 					<div class="recently-added-item" repeat.for="recent of recentlyAdded">
