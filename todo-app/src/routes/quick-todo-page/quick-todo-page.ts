@@ -13,6 +13,9 @@ export class QuickTodoPage {
 	@observable recentItemsSize: number = 5;
 
 	private recentlyAdded: ActionItem[] = [];
+	private isInputExpanded: boolean = false;
+	private initialContainerWidth: number = 0;
+	private maxContainerWidth: number = 0;
 
 	constructor(private actionItemService: ActionItemService) {
 		this.priorities = Object.values(ActionItemPriority);
@@ -24,6 +27,10 @@ export class QuickTodoPage {
 		const todoInput = document.getElementById("todo-input") as HTMLTextAreaElement;
 		todoInput?.focus();
 		todoInput?.addEventListener('input', this.autoResizeTextarea);
+
+		const container = document.querySelector('.quick-todo-container') as HTMLElement;
+		this.initialContainerWidth = container.offsetWidth;
+		this.maxContainerWidth = this.initialContainerWidth * 1.6; // 80% wider than initial
 	}
 
 	detached() {
@@ -47,8 +54,61 @@ export class QuickTodoPage {
 
 	autoResizeTextarea = () => {
 		const textarea = document.getElementById("todo-input") as HTMLTextAreaElement;
+		const container = document.querySelector('.quick-todo-container') as HTMLElement;
+
+		// Create a hidden div to measure text width
+		const hiddenDiv = document.createElement('div');
+		hiddenDiv.style.position = 'absolute';
+		hiddenDiv.style.top = '-9999px';
+		hiddenDiv.style.width = 'auto';
+		hiddenDiv.style.whiteSpace = 'pre';
+		hiddenDiv.style.font = window.getComputedStyle(textarea).font;
+		hiddenDiv.textContent = textarea.value || '.'; // Ensure there's always some content
+		document.body.appendChild(hiddenDiv);
+
+		const textWidth = hiddenDiv.offsetWidth;
+		document.body.removeChild(hiddenDiv);
+
+		// Calculate new width
+		const newWidth = Math.max(this.initialContainerWidth, Math.min(textWidth + 40, this.maxContainerWidth));
+
+		if (newWidth > this.initialContainerWidth && newWidth < this.maxContainerWidth) {
+			// Grow with text
+			container.style.width = `${newWidth}px`;
+			this.isInputExpanded = false;
+			textarea.style.whiteSpace = 'nowrap';
+			textarea.style.overflowWrap = 'normal';
+		} else if (newWidth >= this.maxContainerWidth) {
+			// Switch to multi-line
+			if (!this.isInputExpanded) {
+				this.isInputExpanded = true;
+				container.classList.add('expanded');
+				textarea.style.whiteSpace = 'normal';
+				textarea.style.overflowWrap = 'break-word';
+			}
+			container.style.width = '80%';
+		} else {
+			// Reset to initial width
+			container.style.width = `${this.initialContainerWidth}px`;
+			this.isInputExpanded = false;
+			textarea.style.whiteSpace = 'nowrap';
+			textarea.style.overflowWrap = 'normal';
+		}
+
+		// Adjust height
 		textarea.style.height = 'auto';
-		textarea.style.height = textarea.scrollHeight + 'px';
+		textarea.style.height = `${textarea.scrollHeight}px`;
+	}
+
+	resetInputState() {
+		this.isInputExpanded = false;
+		const container = document.querySelector('.quick-todo-container') as HTMLElement;
+		container.classList.remove('expanded');
+		container.style.width = `${this.initialContainerWidth}px`;
+		const textarea = document.getElementById("todo-input") as HTMLTextAreaElement;
+		textarea.style.whiteSpace = 'nowrap';
+		textarea.style.overflowWrap = 'normal';
+		textarea.style.height = 'auto';
 	}
 
 	async saveTodo() {
@@ -72,8 +132,10 @@ export class QuickTodoPage {
 				this.priority = ActionItemPriority.Medium;
 				this.isExpanded = false;
 
+				// Reset the input state after saving
+				this.resetInputState();
+
 				const textarea = document.getElementById("todo-input") as HTMLTextAreaElement;
-				textarea.style.height = 'auto';
 				textarea.focus();
 			})
 				.catch((error) => {

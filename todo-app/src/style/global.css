@@ -11,6 +11,7 @@ body {
 	--icon-highlight-color: #0e7fac;
 	--icon-highlight-color-rgb: 0, 0, 0, 0.5;
 	--text-color: black;
+	--text-color-inverse: white;
 	--btn-color: #212529;
 	--btn-border-color: #212529;
 	--background-highlight-color: #d2d2d6;
@@ -34,11 +35,13 @@ body {
 	--critical-color: #ff585b;
 	--warning-color: #c7a200;
 	--complete-color: #41ee95;
+	--pink-neon: #f50057;
 	--purple: #5c65f3;
 	--salmon: #f95959;
 	--green-neon: #24f7a9;
 	--blue: #33b2e0;
 	--blue-neon: #0fbbff;
+	--gray: #aaa;
 }
 
 body.dark-mode {
@@ -47,6 +50,7 @@ body.dark-mode {
 	--icon-highlight-color: #6cd5ff;
 	--icon-highlight-color-rgb: 0, 0, 0, 0.5;
 	--text-color: white;
+	--text-color-inverse: black;
 	--btn-color: #f8f9fa;
 	--btn-border-color: #f8f9fa;
 	--background-highlight-color: #1a1a1a;

@@ -1,3 +1,4 @@
+/* Updated: Changed width to 50%, added max-width */
 .quick-todo-page {
 	background-color: var(--dialog-background) !important;
 	width: 100%;
@@ -8,14 +9,25 @@
 	padding-top: 20vh;
 
 	--recent-items-animation-time: 0.2s;
-	/* Adjust this value to set the distance from the top */
 }
 
-.quick-todo-container {
-	width: 75vw;
+
+/* .quick-todo-container {
+	width: 50%;
+	max-width: 80%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	transition: width 0.3s ease;
+} */
+
+.quick-todo-container {
+	width: 50%;
+	max-width: 80%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	transition: width 0.3s ease;
 }
 
 .quick-todo-page-form {
@@ -26,26 +38,46 @@
 	margin-bottom: 20px;
 }
 
+/* 
 .quick-todo-main-content {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	margin-bottom: 15px;
+}
+
+
+.quick-todo-input-wrapper {
+	display: flex;
+	align-items: flex-start;
+	flex-grow: 1;
+	margin-right: 10px;
+} */
+
+.quick-todo-main-content {
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 15px;
+	width: 100%;
 }
 
 .quick-todo-input-wrapper {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	flex-grow: 1;
 	margin-right: 10px;
+	width: 100%;
+	transition: width 0.3s ease;
 }
 
 .quick-todo-input-wrapper i {
 	font-size: 1.5em;
 	color: var(--muted-text-color);
 	margin-right: 10px;
+	margin-top: 10px;
 }
 
-.quick-todo-input-wrapper input {
+
+/* .quick-todo-input-wrapper textarea {
 	flex-grow: 1;
 	font-size: 1.5em;
 	padding: 10px;
@@ -53,10 +85,34 @@
 	background-color: transparent;
 	color: var(--text-color);
 	outline: none;
+	resize: none;
+	overflow: hidden;
+	min-height: 40px;
+	width: 100%;
+	transition: height 0.3s ease;
+} */
+
+.quick-todo-input-wrapper textarea {
+	flex-grow: 1;
+	font-size: 1.5em;
+	padding: 10px;
+	border: none;
+	background-color: transparent;
+	color: var(--text-color);
+	outline: none;
+	resize: none;
+	overflow: hidden;
+	min-height: 40px;
+	width: 100%;
+	transition: width 0.3s ease, height 0.3s ease;
+	white-space: nowrap;
+	overflow-x: hidden;
 }
 
 .quick-todo-save-btn {
 	white-space: nowrap;
+	align-self: flex-start;
+	margin-top: 10px;
 }
 
 .quick-todo-toggle-wrapper {
@@ -135,15 +191,13 @@
 	border-radius: 5px;
 }
 
-
 .recently-added-section.styled-list {
 	width: 100%;
 	position: relative;
-	/* font-family: "Poppins", sans-serif; */
 }
 
 .recently-added-section.styled-list h2 {
-	color: #fff;
+	color: var(--text-color);
 	font-weight: 700;
 	letter-spacing: 1px;
 	margin-bottom: 10px;
@@ -158,7 +212,7 @@
 	left: 0;
 	color: #fce4ec;
 	margin: 4px 0;
-	border-left: 2px solid #f50057;
+	border-left: 2px solid var(--pink-neon);
 	transition: var(--recent-items-animation-time);
 	cursor: pointer;
 	padding: 8px;
@@ -179,7 +233,7 @@
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background: #f50057;
+	background: var(--pink-neon);
 	transform: scaleX(0);
 	transform-origin: left;
 	transition: var(--recent-items-animation-time);
@@ -199,43 +253,41 @@
 
 .recently-added-item:hover .item-title,
 .recently-added-item:hover .item-time {
-	color: #111;
+	color: var(--text-color-inverse);
 }
 
 .recently-added-item .item-time {
 	font-size: 0.8em;
-	color: #aaa;
-}
-
-.quick-todo-input-wrapper {
-	display: flex;
-	align-items: flex-start;
-	flex-grow: 1;
-	margin-right: 10px;
-}
-
-.quick-todo-input-wrapper i {
-	font-size: 1.5em;
 	color: var(--muted-text-color);
-	margin-right: 10px;
-	margin-top: 10px;
 }
 
-.quick-todo-input-wrapper textarea {
-	flex-grow: 1;
-	font-size: 1.5em;
-	padding: 10px;
-	border: none;
-	background-color: transparent;
-	color: var(--text-color);
-	outline: none;
-	resize: none;
-	overflow: hidden;
-	min-height: 40px;
+/* New: Added responsive behavior */
+@media (max-width: 768px) {
+	.quick-todo-container {
+		width: 80%;
+	}
 }
 
-.quick-todo-save-btn {
-	white-space: nowrap;
-	align-self: flex-start;
-	margin-top: 10px;
+/* New: Added multi-row input behavior */
+.quick-todo-container.expanded {
+	width: 80%;
+}
+
+.quick-todo-container.expanded .quick-todo-input-wrapper textarea {
+	height: auto;
+}
+
+@media (max-width: 768px) {
+	.quick-todo-container {
+		width: 80%;
+	}
+}
+
+.quick-todo-container.expanded {
+	width: 80%;
+}
+
+.quick-todo-container.expanded .quick-todo-input-wrapper textarea {
+	white-space: normal;
+	overflow-wrap: break-word;
 }
