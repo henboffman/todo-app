@@ -17,6 +17,7 @@ import { QuickTodoPage } from './routes/quick-todo-page/quick-todo-page';
 import { ColumnSelectDialog } from './dialogs/column-select-dialog/column-select-dialog';
 import { SortValueConverter } from './value-converters/sort-value-converter';
 import { App } from './app';
+import { CustomContextManagerDialog } from './dialogs/custom-context-manager-dialog/custom-context-manager-dialog';
 
 
 
@@ -33,6 +34,8 @@ Aurelia
 	.register(CreateActionItemDialog)
 	.register(QuickTodoDialog)
 	.register(TableFilterDialog)
+	.register(CustomContextManagerDialog)
+
 	.register(ActionItemCard)
 	.register(ActionItemTable)
 	.register(QuickTodoPage)

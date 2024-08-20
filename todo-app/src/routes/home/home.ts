@@ -21,7 +21,7 @@ export class Home {
 	) { }
 
 	async attached() {
-		await this.actionItemService.loadActionItems();
+		// await this.actionItemService.loadActionItems();
 		this.setInitialContentHeight('dueSoonContent');
 		this.setInitialContentHeight('allItemsContent');
 	}

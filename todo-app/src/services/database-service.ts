@@ -21,14 +21,12 @@ export class DatabaseService {
 	}
 
 	private async ensureDatabaseOpen(): Promise<void> {
-		console.log(this.isDatabaseOpen());
 		if (!this.isDatabaseOpen()) {
 			await this.openDatabase();
 		}
 	}
 
 	openDatabase(): Promise<void> {
-		console.info("Opening database");
 		return new Promise((resolve, reject) => {
 			const request = indexedDB.open(this.dbName);
 
@@ -39,7 +37,6 @@ export class DatabaseService {
 
 			request.onsuccess = (event) => {
 				this.db = (event.target as IDBOpenDBRequest).result;
-				console.info(this.db);
 				this.logger.info("Database opened successfully");
 
 				// Check and create stores if they don't exist
@@ -62,7 +59,6 @@ export class DatabaseService {
 	}
 
 	private ensureStoresExist(db: IDBDatabase): Promise<void> {
-		console.info("Ensuring stores exist");
 		return new Promise((resolve, reject) => {
 			const storeNames = Object.values(DatabaseStores).filter(value => typeof value === 'string');
 			const missingStores = storeNames.filter(

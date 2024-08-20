@@ -1,13 +1,19 @@
+import { valueConverter } from 'aurelia';
+
+@valueConverter('dateFormat')
 export class DateFormatValueConverter {
-    toView(value: Date | string): string {
+    toView(value: string | null): string {
         if (!value) return '';
 
-        const date = value instanceof Date ? value : new Date(value);
+        // Create a date object in UTC
+        const date = new Date(value + 'T00:00:00Z');
 
-        return date.toLocaleString('en-US', {
+        // Format the date in UTC
+        return date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
-            day: 'numeric'
+            day: 'numeric',
+            timeZone: 'UTC'
         });
     }
 }

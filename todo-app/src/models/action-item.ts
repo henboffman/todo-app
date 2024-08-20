@@ -41,9 +41,9 @@ export class ActionItem {
     title: string;
     description: string;
     status: ActionItemStatus;
-    dueDate: string | null; // Store as ISO string for easy serialization
+    dueDate: string | null;
     priority: ActionItemPriority;
-    context: ActionItemContext;
+    context: string;
     project: string | null;
     whoFor: string | null;
     tags: string[];
@@ -72,7 +72,7 @@ export class ActionItem {
         description: string = '',
         status: ActionItemStatus = ActionItemStatus.New,
         priority: ActionItemPriority = ActionItemPriority.Medium,
-        context: ActionItemContext = ActionItemContext.NotSelected
+        context: string = "Not Selected"
     ) {
         this.id = uuidv4();
         this.title = title;
@@ -194,8 +194,8 @@ export class ActionItem {
 
     static fromObject(obj: any): ActionItem {
         const item = new ActionItem(obj.title);
-        item.animate = obj.animate || false;
         Object.assign(item, obj);
+        item.animate = obj.animate || false;
         return item;
     }
 }

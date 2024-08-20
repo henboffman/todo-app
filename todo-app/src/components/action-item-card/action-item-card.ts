@@ -56,8 +56,13 @@ export class ActionItemCard {
 
     formatDate(dateString: string | null): string {
         if (!dateString) return 'No due date';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const date = new Date(dateString + 'T00:00:00Z');
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            timeZone: 'UTC'
+        });
     }
 
     async deleteItem(): Promise<void> {

@@ -1,16 +1,21 @@
 <template>
-	<require from="./settings-sidebar.css"></require>
-	<div class="settings-view">
-		<h2>Settings</h2>
+    <require from="./settings-sidebar.css"></require>
+    <div class="settings-view">
+        <h2>Settings</h2>
 
-		<section class="settings-section">
-			<h3>Appearance</h3>
-			<button class="btn btn-outline-custom" click.trigger="toggleTheme()">Toggle Theme</button>
-		</section>
+        <section class="settings-section">
+            <h3>Appearance</h3>
+            <button class="btn btn-outline-custom" click.trigger="toggleTheme()">Toggle Theme</button>
+        </section>
+        <section class="settings-section">
+            <h3>Data</h3>
+            <button class="btn btn-outline-custom" click.trigger="openCustomContextManager()">Manage Custom Context
+                values</button>
+        </section>
 
 
 
-		<!-- <section class="settings-section">
+        <!-- <section class="settings-section">
             <h3>Data Management</h3>
 
             <div class="my-2">
@@ -23,7 +28,7 @@
             </div>
             <button class="btn btn-outline-primary" click.trigger="importData()">Import Data</button>
         </section> -->
-	</div>
+    </div>
 
-	<tag-pattern-modal></tag-pattern-modal>
+    <tag-pattern-modal></tag-pattern-modal>
 </template>

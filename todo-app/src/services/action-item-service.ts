@@ -1,16 +1,22 @@
 import { inject } from "aurelia";
 import { DatabaseService } from "./database-service";
-import { ActionItem, ActionItemPriority, ActionItemStatus } from "../models/action-item";
+import { ActionItem, ActionItemContext, ActionItemPriority, ActionItemStatus } from "../models/action-item";
 import DatabaseStores from "../common/database-stores";
+import { CustomContextManagerDialog } from "../dialogs/custom-context-manager-dialog/custom-context-manager-dialog";
+import { DialogService } from "@aurelia/dialog";
 
-@inject(DatabaseService, DatabaseStores)
+@inject(DatabaseService, DatabaseStores, DialogService)
 export class ActionItemService {
 	public actionItems: ActionItem[] = [];
 	public deletedActionItems: ActionItem[] = [];
+	public customContextOptions: string[] = [];
 
-	constructor(private databaseService: DatabaseService) {
+	private readonly CONTEXT_OPTIONS_KEY = 1; // Use a fixed key for storing context options
+
+	constructor(private databaseService: DatabaseService, private dialogService: DialogService) {
 		this.loadActionItems();
 		this.loadDeletedActionItems();
+		this.loadCustomContextOptions();
 	}
 
 	get upcomingItems(): ActionItem[] {
@@ -46,6 +52,7 @@ export class ActionItemService {
 			})
 			.slice(0, limit);
 	}
+
 
 	async createActionItem(title: string, dueDate: string, priority: ActionItemPriority): Promise<ActionItem> {
 		const actionItem = new ActionItem(title);
@@ -103,4 +110,47 @@ export class ActionItemService {
 		await this.databaseService.deleteItem(DatabaseStores.ACTION_ITEMS, actionItem.key!);
 		await this.loadDeletedActionItems();
 	}
+
+
+	async loadCustomContextOptions() {
+		try {
+			const options = await this.databaseService.getItem(DatabaseStores.CUSTOM_CONTEXTS, this.CONTEXT_OPTIONS_KEY);
+			// convert ActionItemContext enum values to string array
+			const defaultContextOptions = Object.values(ActionItemContext).filter(value => typeof value === 'string');
+			this.customContextOptions = options?.contexts || defaultContextOptions;
+		} catch (error) {
+			console.error("Error loading custom context options:", error);
+			this.customContextOptions = Object.values(ActionItemContext).filter(value => typeof value === 'string');
+		}
+	}
+
+	async addCustomContextOption(option: string) {
+		if (!this.customContextOptions.includes(option)) {
+			this.customContextOptions.push(option);
+			await this.saveCustomContextOptions();
+		}
+	}
+
+	async removeCustomContextOption(option: string) {
+		const index = this.customContextOptions.indexOf(option);
+		if (index > -1) {
+			this.customContextOptions.splice(index, 1);
+			await this.saveCustomContextOptions();
+		}
+	}
+
+
+
+	async saveCustomContextOptions() {
+		const contextOptionsData = {
+			key: this.CONTEXT_OPTIONS_KEY,
+			contexts: this.customContextOptions
+		};
+		await this.databaseService.updateItem(DatabaseStores.CUSTOM_CONTEXTS, this.CONTEXT_OPTIONS_KEY, contextOptionsData);
+	}
+
+	get contextOptions() {
+		return ['Not Selected', ...this.customContextOptions];
+	}
+
 }

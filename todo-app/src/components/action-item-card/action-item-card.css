@@ -53,6 +53,7 @@
     animation: rotate-gradient 15s linear infinite;
 }
 
+
 @keyframes rotate-gradient {
     0% {
         background-position: 0% 0%;
