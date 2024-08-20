@@ -4,21 +4,30 @@ import { ActionItemService } from '../../services/action-item-service';
 import { TableFilterDialog } from '../../dialogs/table-filter-dialog/table-filter-dialog';
 import { ColumnSelectDialog } from '../../dialogs/column-select-dialog/column-select-dialog';
 import { DialogService } from '@aurelia/dialog';
+import { ActionItemEdit } from '../action-item-edit/action-item-edit';
 
 @inject(ActionItemService, DialogService)
 export class ActionItemTable {
     // @ts-expect-error:null
     @bindable actionItems: ActionItem[] = [];
+    @bindable({ type: Boolean }) showCompleted: boolean = true;
+    @observable private columns: { key: keyof ActionItem; name: string; selected: boolean; order: number }[] = [];
+    // @observable private showCompleted: boolean = true;
     private sortedAndFilteredItems: ActionItem[] = [];
 
     private editingItem: ActionItem | null = null;
     private sortField: keyof ActionItem | null = null;
     private sortDirection: 'asc' | 'desc' = 'asc';
     private filters: { [key: string]: string[] } = {};
-    @observable private columns: { key: keyof ActionItem; name: string; selected: boolean; order: number }[] = [];
+
+
 
     constructor(private actionItemService: ActionItemService, private dialogService: DialogService) {
         this.loadColumnConfiguration();
+    }
+
+    showCompletedChanged() {
+        this.toggleShowCompleted();
     }
 
     attached() {
@@ -66,6 +75,22 @@ export class ActionItemTable {
         }
     }
 
+    async openEditDialog(actionItemId: string) {
+        const { dialog } = await this.dialogService.open({
+            component: () => ActionItemEdit,
+            model: { id: actionItemId, isDialog: true },
+            lock: true,
+            startingZIndex: 10,
+            keyboard: ["Escape"],
+        });
+
+        const response = await dialog.closed;
+        if (response.status === 'ok') {
+            this.editingItem = null;
+            this.updateSortedAndFilteredItems();
+        }
+    }
+
     async saveItem(item: ActionItem) {
         await this.actionItemService.updateItem(item);
         this.editingItem = null;
@@ -107,13 +132,43 @@ export class ActionItemTable {
         }
     }
 
+    // updateSortedAndFilteredItems() {
+    //     let items = [...this.actionItems];
+
+    //     // Apply filters
+    //     items = items.filter(item => {
+    //         return Object.entries(this.filters).every(([field, values]) => {
+    //             if (!values || values.length === 0) return true;  // Added null check
+    //             return values.includes(String(item[field as keyof ActionItem]));
+    //         });
+    //     });
+
+    //     // Apply sort
+    //     if (this.sortField) {
+    //         items.sort((a, b) => {
+    //             const aValue = a[this.sortField!];
+    //             const bValue = b[this.sortField!];
+    //             if (aValue < bValue) return this.sortDirection === 'asc' ? -1 : 1;
+    //             if (aValue > bValue) return this.sortDirection === 'asc' ? 1 : -1;
+    //             return 0;
+    //         });
+    //     }
+
+    //     this.sortedAndFilteredItems = items;
+    // }
+
     updateSortedAndFilteredItems() {
         let items = [...this.actionItems];
 
-        // Apply filters
+        // Filter out completed items if showCompleted is false
+        if (!this.showCompleted) {
+            items = items.filter(item => item.status !== ActionItemStatus.Completed);
+        }
+
+        // Apply existing filters
         items = items.filter(item => {
             return Object.entries(this.filters).every(([field, values]) => {
-                if (!values || values.length === 0) return true;  // Added null check
+                if (!values || values.length === 0) return true;
                 return values.includes(String(item[field as keyof ActionItem]));
             });
         });
@@ -131,6 +186,11 @@ export class ActionItemTable {
 
         this.sortedAndFilteredItems = items;
     }
+
+    toggleShowCompleted() {
+        this.updateSortedAndFilteredItems();
+    }
+
 
     toggleCompleted(item: ActionItem) {
         if (item.status === ActionItemStatus.Completed) {

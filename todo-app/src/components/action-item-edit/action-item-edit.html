@@ -1,0 +1,123 @@
+<template>
+    <require from="./action-item-edit.css"></require>
+    <ux-dialog style="background-color: var(--dialog-background)">
+        <ux-dialog-header>
+            <h2>${actionItem.key ? 'Edit' : 'Create'} Action Item</h2>
+
+        </ux-dialog-header>
+
+        <ux-dialog-body>
+            <div class="action-item-edit ${isDialog ? 'dialog-mode' : ''}">
+                <div class="two-column-layout">
+                    <div class="column first-column">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" value.bind="actionItem.title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3"
+                                value.bind="actionItem.description"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status" value.bind="actionItem.status">
+                                    <option repeat.for="status of statuses" value.bind="status">${status}</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="priority" class="form-label">Priority</label>
+                                <select class="form-select" id="priority" value.bind="actionItem.priority">
+                                    <option repeat.for="priority of priorities" value.bind="priority">${priority}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="dueDate" class="form-label">Due Date</label>
+                                <input type="date" class="form-control" id="dueDate" value.bind="actionItem.dueDate">
+                            </div>
+                            <div class="col">
+                                <label for="context" class="form-label">Context</label>
+                                <select class="form-select" id="context" value.bind="actionItem.context">
+                                    <option repeat.for="context of contextOptions" value.bind="context">${context}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="project" class="form-label">Project</label>
+                            <input type="text" class="form-control" id="project" value.bind="actionItem.project">
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="mb-3">
+                            <div class="row">
+                                <label for="tags" class="form-label">Tags</label>
+                                <div class="tags-input">
+                                    <span class="tag" repeat.for="tag of actionItem.tags">
+                                        ${tag}
+                                        <i class="bi bi-x icon" click.trigger="removeTag(tag)"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="tag-input" value.bind="newTag">
+                                    <button class="btn btn-outline-custom" type="button" click.trigger="addTag()">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="estimatedTime" class="form-label">Estimated Time (minutes)</label>
+                                <input type="number" class="form-control" id="estimatedTime"
+                                    value.bind="actionItem.estimatedTime">
+                            </div>
+                            <div class="col">
+                                <label for="actualTime" class="form-label">Actual Time (minutes)</label>
+                                <input type="number" class="form-control" id="actualTime"
+                                    value.bind="actionItem.actualTime">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="recurring"
+                                    checked.bind="actionItem.recurring">
+                                <label class="form-check-label" for="recurring">Recurring</label>
+                            </div>
+                        </div>
+                        <div class="mb-3" if.bind="actionItem.recurring">
+                            <label for="recurrencePattern" class="form-label">Recurrence Pattern</label>
+                            <input type="text" class="form-control" id="recurrencePattern"
+                                value.bind="actionItem.recurrencePattern">
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" rows="3" value.bind="actionItem.notes"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="energy" class="form-label">Energy Level (1-5)</label>
+                            <input type="range" class="form-range" min="1" max="5" step="1" id="energy"
+                                value.bind="actionItem.energy">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </ux-dialog-body>
+
+        <ux-dialog-footer class="my-3">
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" click.trigger="cancel()">Cancel</button>
+                <button type="submit" class="btn btn-primary" click.trigger="saveActionItem()">Save
+                    Changes</button>
+            </div>
+        </ux-dialog-footer>
+    </ux-dialog>
+</template>

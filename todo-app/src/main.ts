@@ -18,6 +18,7 @@ import { ColumnSelectDialog } from './dialogs/column-select-dialog/column-select
 import { SortValueConverter } from './value-converters/sort-value-converter';
 import { App } from './app';
 import { CustomContextManagerDialog } from './dialogs/custom-context-manager-dialog/custom-context-manager-dialog';
+import { ActionItemEdit } from './components/action-item-edit/action-item-edit';
 
 
 
@@ -39,6 +40,8 @@ Aurelia
 	.register(ActionItemCard)
 	.register(ActionItemTable)
 	.register(QuickTodoPage)
+	.register(ActionItemEdit)
+
 	.app(App)
 
 	.start();

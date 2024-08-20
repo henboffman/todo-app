@@ -226,3 +226,14 @@ ux-dialog-container {
 	opacity: 1;
 	transition: opacity 0.3s ease-in;
 }
+
+.show-completed-checkbox {
+	display: flex;
+	align-items: center;
+	color: var(--text-color);
+	font-size: 0.9em;
+}
+
+.show-completed-checkbox input {
+	margin-right: 5px;
+}

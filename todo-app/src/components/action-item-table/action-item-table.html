@@ -1,7 +1,15 @@
 <template>
     <require from="./action-item-table.css"></require>
     <div class="table-responsive">
-        <table class="table table-dark table-hover action-item-table">
+        <!-- <div class="table-header">
+            <div class="header-controls">
+                <label class="show-completed-checkbox">
+                    <input type="checkbox" checked.bind="showCompleted" change.trigger="toggleShowCompleted()">
+                    Show Completed
+                </label>
+            </div>
+        </div> -->
+        <table class="table table-dark table-hover action-item-table table-responsive">
             <thead>
                 <tr>
                     <th></th>
@@ -112,21 +120,17 @@
                         <span else>${item.context}</span>
                     </td>
                     <td>
-                        <button if.bind="editingItem === item" click.trigger="saveItem(item)">Save</button>
+                        <i class="bi bi-arrows-fullscreen icon mx-1" click.trigger="openEditDialog(item.id)"
+                            if.bind="editingItem === item" title="Expand editor"></i>
+                        <i class="bi bi-floppy icon mx-1" click.trigger="saveItem(item)" if.bind="editingItem === item"
+                            title="Save changes"></i>
+                        <i class="bi bi-arrow-counterclockwise icon mx-1" click.trigger="cancelEdit()"
+                            if.bind="editingItem === item" title="Cancel edit"></i>
+                        <i class="bi bi-pencil icon mx-2" if.bind="editingItem !== item" click.trigger="editItem(item)"
+                            title="Edit"></i>
 
-                        <button if.bind="editingItem === item" click.trigger="cancelEdit()">Cancel</button>
+                        <i class="bi bi-trash icon mx-1" click.trigger="deleteItem(item)" title="Delete"></i>
 
-                        <i class="bi bi-pencil icon mx-2" if.bind="editingItem !== item"
-                            click.trigger="editItem(item)"></i>
-
-                        <!-- <button if.bind="editingItem !== item" click.trigger="editItem(item)">
-                    </button> -->
-
-                        <i class="bi bi-trash icon" click.trigger="deleteItem(item)"></i>
-                        <!-- <button click.trigger="deleteItem(item)">
-                        <i class="bi bi-trash">
-
-                    </button> -->
                     </td>
                 </tr>
             </tbody>

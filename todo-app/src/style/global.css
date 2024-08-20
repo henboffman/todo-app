@@ -35,6 +35,7 @@ body {
 	--critical-color: #ff585b;
 	--warning-color: #c7a200;
 	--complete-color: #41ee95;
+
 	--pink-neon: #f50057;
 	--purple: #5c65f3;
 	--salmon: #f95959;
@@ -42,6 +43,14 @@ body {
 	--blue: #33b2e0;
 	--blue-neon: #0fbbff;
 	--gray: #aaa;
+
+	--pink-neon-hover: #c80046;
+	--purple-hover: #4751d1;
+	--salmon-hover: #e54747;
+	--green-neon-hover: #1ad48f;
+	--blue-hover: #2699c4;
+	--blue-neon-hover: #0099d6;
+	--gray-hover: #888;
 }
 
 body.dark-mode {

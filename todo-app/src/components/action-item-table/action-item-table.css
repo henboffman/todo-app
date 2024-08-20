@@ -20,6 +20,7 @@
 .action-item-table th:not(:first-child),
 .action-item-table td:not(:first-child) {
     min-width: 120px;
+    max-width: 500px;
 }
 
 
@@ -232,4 +233,41 @@
 .checkbox-column {
     width: 30px;
     align-items: center;
+}
+
+.table-header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 10px 20px;
+    /* background-color: var(--dialog-background); */
+    border-bottom: 1px solid var(--muted-line-color);
+}
+
+.table-header h2 {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+}
+
+.show-completed-checkbox {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    color: var(--text-color);
+    font-size: 0.9em;
+}
+
+.show-completed-checkbox input {
+    margin-right: 5px;
+}
+
+.header-controls .bi-chevron-down {
+    font-size: 1.2em;
+    color: var(--text-color);
+    cursor: pointer;
 }

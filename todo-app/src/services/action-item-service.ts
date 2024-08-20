@@ -84,6 +84,26 @@ export class ActionItemService {
 			.map(item => ActionItem.fromObject(item));
 	}
 
+	async getActionItem(id: string): Promise<ActionItem | undefined> {
+		// First, try to find the item in the in-memory actionItems array
+		let item = this.actionItems.find(item => item.id === id);
+
+		// If not found, check the deletedActionItems array
+		if (!item) {
+			item = this.deletedActionItems.find(item => item.id === id);
+		}
+
+		// If still not found, try to fetch from the database
+		if (!item) {
+			const dbItem = await this.databaseService.getItem(DatabaseStores.ACTION_ITEMS, id);
+			if (dbItem) {
+				item = ActionItem.fromObject(dbItem);
+			}
+		}
+
+		return item;
+	}
+
 	async createSimpleActionItem(title: string) {
 		const actionItem = new ActionItem(title);
 		await this.databaseService.addItem(DatabaseStores.ACTION_ITEMS, actionItem);

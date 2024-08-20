@@ -1,5 +1,5 @@
 // routes/home/home.ts
-import { inject } from "aurelia";
+import { inject, observable } from "aurelia";
 import { DialogService } from "@aurelia/dialog";
 import { DatabaseService } from "../../services/database-service";
 import { ActionItemService } from "../../services/action-item-service";
@@ -11,8 +11,10 @@ import { QuickTodoResult } from "../../models/interfaces/quick-todo-result";
 export class Home {
 	dueSoonExpanded = true;
 	allItemsExpanded = true;
+	showCompleted = true;
 	dueSoonContent: HTMLElement;
 	allItemsContent: HTMLElement;
+
 
 	constructor(
 		private dialogService: DialogService,
