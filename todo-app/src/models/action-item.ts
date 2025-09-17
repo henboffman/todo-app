@@ -32,6 +32,9 @@ export enum ActionItemContext {
     Email = 'Email',
     Meet = 'Meet',
     Chat = 'Chat',
+    Plan = 'Plan',
+    Research = 'Research',
+    Development = 'Development',
     NotSelected = 'Not Selected'
 }
 

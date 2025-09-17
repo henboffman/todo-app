@@ -5,6 +5,43 @@ import DatabaseStores from "../common/database-stores";
 import { CustomContextManagerDialog } from "../dialogs/custom-context-manager-dialog/custom-context-manager-dialog";
 import { DialogService } from "@aurelia/dialog";
 
+// Define keywords for auto-tagging contexts
+const CONTEXT_KEYWORDS: { [key: string]: string } = {
+	// Communication
+	'call': ActionItemContext.Calls,
+	'phone': ActionItemContext.Calls,
+	'email': ActionItemContext.Email,
+	'mail': ActionItemContext.Email,
+	'meet': ActionItemContext.Meet,
+	'meeting': ActionItemContext.Meet,
+	'schedule': ActionItemContext.Meet,    // Catches "schedule time with"
+	'chat': ActionItemContext.Chat,
+	'message': ActionItemContext.Chat,
+	'ping': ActionItemContext.TeamChat,
+	'teams': ActionItemContext.TeamChat,
+	'slack': ActionItemContext.TeamChat,
+
+	// Development & Work
+	'dev': ActionItemContext.Development,   // Changed from .Computer for consistency
+	'code': ActionItemContext.Development,  // Changed from .Computer for consistency
+	'develop': ActionItemContext.Development, // Changed from .Computer for consistency
+	'backlog': ActionItemContext.Development, // Catches "...to the backlog"
+	'work on': ActionItemContext.Work,
+
+	// Planning & Research
+	'we need to': ActionItemContext.Plan,   // Catches "we need to"
+	'learn': ActionItemContext.Research,      // Catches "learn how"
+
+	// Personal & Home
+	'buy': ActionItemContext.Errands,
+	'shop': ActionItemContext.Errands,
+	'errand': ActionItemContext.Errands,
+	'fix': ActionItemContext.Home,
+	'clean': ActionItemContext.Home,
+	'organize': ActionItemContext.Home,
+};
+
+
 @inject(DatabaseService, DatabaseStores, DialogService)
 export class ActionItemService {
 	public actionItems: ActionItem[] = [];
@@ -17,6 +54,23 @@ export class ActionItemService {
 		this.loadActionItems();
 		this.loadDeletedActionItems();
 		this.loadCustomContextOptions();
+	}
+
+	/**
+	 * Determines the context of an action item based on keywords in its title.
+	 * @param title The title of the action item.
+	 * @returns The determined context or a default value.
+	 */
+	private _getContextFromTitle(title: string): string {
+		const lowerCaseTitle = title.toLowerCase();
+		for (const keyword in CONTEXT_KEYWORDS) {
+			// Use word boundaries to avoid partial matches (e.g., "email" in "detailed")
+			const regex = new RegExp(`\\b${keyword}\\b`);
+			if (regex.test(lowerCaseTitle)) {
+				return CONTEXT_KEYWORDS[keyword];
+			}
+		}
+		return ActionItemContext.NotSelected;
 	}
 
 	get upcomingItems(): ActionItem[] {
@@ -58,6 +112,8 @@ export class ActionItemService {
 		const actionItem = new ActionItem(title);
 		actionItem.dueDate = dueDate;
 		actionItem.priority = priority;
+		// Automatically set the context based on the title
+		actionItem.context = this._getContextFromTitle(title);
 		await this.databaseService.addItem(DatabaseStores.ACTION_ITEMS, actionItem);
 		await this.loadActionItems();
 		return actionItem;
@@ -106,6 +162,8 @@ export class ActionItemService {
 
 	async createSimpleActionItem(title: string) {
 		const actionItem = new ActionItem(title);
+		// Automatically set the context based on the title
+		actionItem.context = this._getContextFromTitle(title);
 		await this.databaseService.addItem(DatabaseStores.ACTION_ITEMS, actionItem);
 		await this.loadActionItems();
 	}
