@@ -13,6 +13,7 @@
     "aurelia": "latest",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "compromise": "^14.14.4",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ import { TableFilterDialog } from '../../dialogs/table-filter-dialog/table-filte
 import { ColumnSelectDialog } from '../../dialogs/column-select-dialog/column-select-dialog';
 import { DialogService } from '@aurelia/dialog';
 import { ActionItemEdit } from '../action-item-edit/action-item-edit';
+import * as bootstrap from 'bootstrap';
 
 @inject(ActionItemService, DialogService)
 export class ActionItemTable {
@@ -19,8 +20,13 @@ export class ActionItemTable {
     private sortField: keyof ActionItem | null = null;
     private sortDirection: 'asc' | 'desc' = 'asc';
     private filters: { [key: string]: string[] } = {};
+    private showLocalStorageLoadMessage: boolean = false;
 
-
+    get visibleColumns() {
+        return this.columns
+            .filter(c => c.selected)
+            .sort((a, b) => a.order - b.order);
+    }
 
     constructor(private actionItemService: ActionItemService, private dialogService: DialogService) {
         this.loadColumnConfiguration();
@@ -32,7 +38,9 @@ export class ActionItemTable {
 
     attached() {
         console.log('ActionItemTable attached');
+        this.loadSortAndFilterStateFromLocalStorage();
         this.updateSortedAndFilteredItems();
+
     }
 
     actionItemsChanged() {
@@ -185,7 +193,54 @@ export class ActionItemTable {
         }
 
         this.sortedAndFilteredItems = items;
+        this.saveSortAndFilterStateToLocalStorage();
+
     }
+
+    saveSortAndFilterStateToLocalStorage() {
+        console.info("Saving sort and filter state to localStorage");
+        localStorage.setItem('actionItemColumns', JSON.stringify(this.columns));
+        localStorage.setItem('actionItemFilters', JSON.stringify(this.filters));
+        localStorage.setItem('actionItemSortField', this.sortField || '');
+        localStorage.setItem('actionItemSortDirection', this.sortDirection);
+    }
+
+    loadSortAndFilterStateFromLocalStorage() {
+        let loadedSomethingFromLocalStorage = false;
+        const savedColumns = localStorage.getItem('actionItemColumns');
+        if (savedColumns) {
+            this.columns = JSON.parse(savedColumns);
+            loadedSomethingFromLocalStorage = true;
+        }
+
+        const savedFilters = localStorage.getItem('actionItemFilters');
+        if (savedFilters) {
+            this.filters = JSON.parse(savedFilters);
+            loadedSomethingFromLocalStorage = true;
+        }
+
+        const savedSortField = localStorage.getItem('actionItemSortField');
+        if (savedSortField) {
+            this.sortField = savedSortField as keyof ActionItem;
+            loadedSomethingFromLocalStorage = true;
+        }
+
+        const savedSortDirection = localStorage.getItem('actionItemSortDirection');
+        if (savedSortDirection === 'asc' || savedSortDirection === 'desc') {
+            this.sortDirection = savedSortDirection;
+            loadedSomethingFromLocalStorage = true;
+        }
+
+        if (loadedSomethingFromLocalStorage) {
+            console.info("Loaded sort and filter state from localStorage");
+            this.showLocalStorageLoadMessage = true;
+            setTimeout(() => {
+                this.showLocalStorageLoadMessage = false;
+            }, 8000);
+        }
+    }
+
+
 
     toggleShowCompleted() {
         this.updateSortedAndFilteredItems();

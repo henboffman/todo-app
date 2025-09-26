@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <require from="./column-select-dialog.css"></require>
     <div class="column-select-dialog">
         <h2>Select and Reorder Columns</h2>
@@ -27,4 +27,33 @@
             <button click.trigger="cancel()" class="cancel-btn">Cancel</button>
         </div>
     </div>
+</template> -->
+
+<template>
+    <require from="./column-select-dialog.css"></require>
+
+    <au-dialog class="column-select-dialog" close.trigger="cancel()">
+        <au-dialog-header>
+            Manage Columns
+        </au-dialog-header>
+
+        <au-dialog-body>
+            <p>Select columns to display. Drag and drop to reorder.</p>
+            <ul class="column-list">
+                <li repeat.for="col of columns" draggable="true" dragstart.trigger="dragStart($event, col)"
+                    dragover.trigger="dragOver($event, col)" dragleave.trigger="dragLeave($event)"
+                    drop.trigger="drop($event, col)" class="${dragOverItem === col ? 'drag-over' : ''}">
+
+                    <input type="checkbox" checked.bind="col.selected" id="col-${col.key}">
+                    <label for="col-${col.key}">${col.name}</label>
+                    <i class="bi bi-grip-vertical drag-handle"></i>
+                </li>
+            </ul>
+        </au-dialog-body>
+
+        <au-dialog-footer>
+            <button class="btn btn-secondary" click.trigger="cancel()">Cancel</button>
+            <button class="btn btn-primary" click.trigger="save()">Save</button>
+        </au-dialog-footer>
+    </au-dialog>
 </template>
