@@ -46,17 +46,7 @@
     background-color: var(--dialog-background);
 } */
 
-.tags-input .tag {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--pink-neon);
-    color: white;
-    padding: 2px 8px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    font-size: 0.875rem;
-}
+
 
 .tags-input .tag .btn-close {
     font-size: 0.75rem;

@@ -11,7 +11,7 @@ import { QuickTodoResult } from "../../models/interfaces/quick-todo-result";
 export class Home {
 	dueSoonExpanded = true;
 	allItemsExpanded = true;
-	showCompleted = true;
+	@observable showCompleted = true;
 	dueSoonContent: HTMLElement;
 	allItemsContent: HTMLElement;
 
@@ -24,6 +24,22 @@ export class Home {
 
 	async attached() {
 		// await this.actionItemService.loadActionItems();
+
+		const storedDueSoon = localStorage.getItem('dueSoonExpanded');
+		console.log("Stored dueSoonExpanded:", storedDueSoon);
+		if (storedDueSoon !== null) {
+			this.dueSoonExpanded = JSON.parse(storedDueSoon);
+			this.setInitialContentHeight('dueSoonContent');
+		}
+
+		const storedShowCompleted = localStorage.getItem('showCompleted');
+		console.log("Stored showCompleted:", storedShowCompleted);
+		if (storedShowCompleted !== null) {
+			this.showCompleted = JSON.parse(storedShowCompleted);
+		} else {
+			this.showCompleted = true; // Default to true if not set
+		}
+
 		this.setInitialContentHeight('dueSoonContent');
 		this.setInitialContentHeight('allItemsContent');
 	}
@@ -37,6 +53,11 @@ export class Home {
 		}
 	}
 
+	toggleDueSoonExpandedState() {
+		this.toggleSection('dueSoon');
+		this.setDueSoonInLocalStorage();
+	}
+
 	toggleSection(section: 'dueSoon' | 'allItems') {
 		this[`${section}Expanded`] = !this[`${section}Expanded`];
 		const content = this[`${section}Content`] as HTMLElement;
@@ -46,6 +67,19 @@ export class Home {
 		} else {
 			this.collapseSection(content);
 		}
+	}
+
+	showCompletedChanged() {
+		console.info("showCompleted changed:", this.showCompleted);
+		this.setShowCompletedInLocalStorage();
+	}
+
+	setDueSoonInLocalStorage() {
+		localStorage.setItem('dueSoonExpanded', JSON.stringify(this.dueSoonExpanded));
+	}
+
+	setShowCompletedInLocalStorage() {
+		localStorage.setItem('showCompleted', JSON.stringify(this.showCompleted));
 	}
 
 	expandSection(content: HTMLElement) {

@@ -1,14 +1,14 @@
-<template>
+<!-- <template>
     <require from="./action-item-table.css"></require>
     <div class="table-responsive">
-        <!-- <div class="table-header">
+        
+        <div class="table-header">
             <div class="header-controls">
-                <label class="show-completed-checkbox">
-                    <input type="checkbox" checked.bind="showCompleted" change.trigger="toggleShowCompleted()">
-                    Show Completed
-                </label>
+                <button class="btn btn-sm btn-outline-secondary" click.trigger="openColumnSelectDialog()">
+                    <i class="bi bi-layout-three-columns"></i> Manage Columns
+                </button>
             </div>
-        </div> -->
+        </div>
         <table class="table table-dark table-hover action-item-table table-responsive">
             <thead>
                 <tr>
@@ -23,8 +23,7 @@
                                 click.trigger="sort('title', 'desc')"
                                 class.bind="sortField == 'title'? 'active': ''"></i>
                         </span>
-                        <!-- <i class="bi bi-funnel ${filters.title?.length ? 'active' : ''}"
-                        click.trigger="toggleFilter('title')"></i> -->
+                        
                     </th>
                     <th scope="col">
                         Status
@@ -131,6 +130,125 @@
 
                         <i class="bi bi-trash icon mx-1" click.trigger="deleteItem(item)" title="Delete"></i>
 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template> -->
+
+<template>
+    <require from="./action-item-table.css"></require>
+    <div class="table-responsive">
+        <div class="table-header">
+            <div class="header-controls">
+                <div class="mx-5" show.bind="showLocalStorageLoadMessage">
+                    <span class="local-storage-loaded-text">Table settings loaded from
+                        local storage</span>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary" click.trigger="openColumnSelectDialog()">
+                    <i class="bi bi-layout-three-columns"></i> Manage Columns
+                </button>
+            </div>
+        </div>
+        <table class="table table-dark table-hover action-item-table table-responsive">
+            <thead>
+                <tr>
+                    <th></th>
+
+                    <th scope="col" repeat.for="column of visibleColumns">
+                        ${column.name}
+                        <span class="sort-icons">
+                            <i class="bi bi-sort-alpha-down" show.bind="sortDirection === 'desc'"
+                                click.trigger="sort(column.key, 'asc')"
+                                class.bind="sortField === column.key ? 'active' : ''"></i>
+                            <i class="bi bi-sort-alpha-up" show.bind="sortDirection === 'asc'"
+                                click.trigger="sort(column.key, 'desc')"
+                                class.bind="sortField === column.key ? 'active' : ''"></i>
+                        </span>
+                        <i if.bind="column.key !== 'title'"
+                            class="bi bi-funnel ${filters[column.key]?.length ? 'active' : ''}"
+                            click.trigger="toggleFilter(column.key)"></i>
+                    </th>
+
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr repeat.for="item of sortedAndFilteredItems"
+                    class="${item.status === 'Completed' ? 'completed-item' : ''} ${item.animate ? 'animate' : ''}">
+
+                    <td class="checkbox-column">
+                        <label class="custom-checkbox ${item.animate ? 'animate' : ''}">
+                            <input type="checkbox" checked.bind="item.status === 'Completed'"
+                                change.trigger="toggleCompleted(item)">
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+
+                    <td repeat.for="column of visibleColumns"
+                        class.bind="item.status === 'Completed' ? 'completed' : ''">
+
+                        <div if.bind="editingItem === item">
+                            <span switch.bind="column.key">
+                                <input case="title" type="text" class="form-control" value.bind="item.title">
+                                <input case="description" type="text" class="form-control"
+                                    value.bind="item.description">
+
+                                <select case="status" value.bind="item.status" class="form-control">
+                                    <option repeat.for="status of statusOptions" model.bind="status">${status}</option>
+                                </select>
+
+                                <input case="dueDate" type="date" value.bind="item.dueDate" class="form-control">
+                                <input case="createdDate" type="date" value.bind="item.createdDate"
+                                    class="form-control">
+                                <input case="updatedDate" type="date" value.bind="item.updatedDate"
+                                    class="form-control">
+                                <input case="completedDate" type="date" value.bind="item.completedDate"
+                                    class="form-control">
+
+                                <select case="priority" value.bind="item.priority" class="form-control">
+                                    <option repeat.for="priority of priorityOptions" model.bind="priority">${priority}
+                                    </option>
+                                </select>
+
+                                <select case="context" value.bind="item.context" class="form-control">
+                                    <option repeat.for="context of contextOptions" model.bind="context">${context}
+                                    </option>
+                                </select>
+
+                                <input default-case type="text" class="form-control" value.bind="item[column.key]">
+                            </span>
+                        </div>
+                        <span if.bind="column.key === 'tags'">
+                            <span>
+                                <span class="tag" repeat.for="tag of item.tags">
+                                    ${tag}
+                                </span>
+                            </span>
+                        </span>
+
+                        <span else>
+                            <span
+                                if.bind="column.key === 'dueDate' || column.key === 'createdDate' || column.key === 'updatedDate' || column.key === 'completedDate'">
+                                ${item[column.key] | dateFormat}
+                            </span>
+                            <span else>
+                                ${item[column.key]}
+                            </span>
+                        </span>
+                    </td>
+
+                    <td>
+                        <i class="bi bi-arrows-fullscreen icon mx-1" click.trigger="openEditDialog(item.id)"
+                            if.bind="editingItem === item" title="Expand editor"></i>
+                        <i class="bi bi-floppy icon mx-1" click.trigger="saveItem(item)" if.bind="editingItem === item"
+                            title="Save changes"></i>
+                        <i class="bi bi-arrow-counterclockwise icon mx-1" click.trigger="cancelEdit()"
+                            if.bind="editingItem === item" title="Cancel edit"></i>
+                        <i class="bi bi-pencil icon mx-2" if.bind="editingItem !== item" click.trigger="editItem(item)"
+                            title="Edit"></i>
+                        <i class="bi bi-trash icon mx-1" click.trigger="deleteItem(item)" title="Delete"></i>
                     </td>
                 </tr>
             </tbody>

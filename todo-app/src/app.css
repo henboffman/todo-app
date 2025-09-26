@@ -127,3 +127,14 @@ body {
 		margin-right: 0 !important;
 	}
 }
+
+.tag {
+	display: inline-flex;
+	align-items: center;
+	background-color: var(--pink-neon);
+	color: white;
+	padding: 2px 8px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}

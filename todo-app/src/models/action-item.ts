@@ -47,9 +47,9 @@ export class ActionItem {
     dueDate: string | null;
     priority: ActionItemPriority;
     context: string;
+    tags: string[] = [];
     project: string | null;
     whoFor: string | null;
-    tags: string[];
     estimatedTime: number | null;
     actualTime: number | null;
     recurring: boolean;

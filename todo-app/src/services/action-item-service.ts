@@ -4,6 +4,7 @@ import { ActionItem, ActionItemContext, ActionItemPriority, ActionItemStatus } f
 import DatabaseStores from "../common/database-stores";
 import { CustomContextManagerDialog } from "../dialogs/custom-context-manager-dialog/custom-context-manager-dialog";
 import { DialogService } from "@aurelia/dialog";
+import nlp from 'compromise';
 
 // Define keywords for auto-tagging contexts
 const CONTEXT_KEYWORDS: { [key: string]: string } = {
@@ -73,6 +74,42 @@ export class ActionItemService {
 		return ActionItemContext.NotSelected;
 	}
 
+	/**
+	* MODIFIED: This method now generates an array of tags using a hybrid approach.
+	* It uses the old keyword logic for a base context and adds dynamic tags from compromise.
+	* @param title The title of the action item.
+	* @returns An array of determined tags.
+	*/
+	private _getTagsFromTitle(title: string): string[] {
+		const generatedTags = new Set<string>();
+		const lowerCaseTitle = title.toLowerCase();
+
+		// 1. Use the existing keyword logic to find a primary context tag
+		for (const keyword in CONTEXT_KEYWORDS) {
+			const regex = new RegExp(`\\b${keyword}\\b`);
+			if (regex.test(lowerCaseTitle)) {
+				generatedTags.add(CONTEXT_KEYWORDS[keyword]);
+				break; // Add the first context found and stop
+			}
+		}
+
+		// 2. Use compromise to find additional, dynamic tags (nouns and topics)
+		const doc = nlp(title);
+		const nouns = doc.nouns().out('array');
+		const topics = doc.topics().out('array');
+
+		// 3. Combine and clean all potential tags
+		[...nouns, ...topics].forEach(tag => {
+			const cleanTag = tag.toLowerCase().trim();
+			// Add tags that are reasonably long and not just numbers
+			if (cleanTag.length > 2 && !/^\d+$/.test(cleanTag)) {
+				generatedTags.add(cleanTag);
+			}
+		});
+
+		return Array.from(generatedTags);
+	}
+
 	get upcomingItems(): ActionItem[] {
 		return this.getTopUpcomingItems(this.actionItems, 6);
 	}
@@ -112,8 +149,12 @@ export class ActionItemService {
 		const actionItem = new ActionItem(title);
 		actionItem.dueDate = dueDate;
 		actionItem.priority = priority;
+
+
 		// Automatically set the context based on the title
 		actionItem.context = this._getContextFromTitle(title);
+		actionItem.tags = this._getTagsFromTitle(title);
+		console.log("Generated tags for new action item:", actionItem.tags);
 		await this.databaseService.addItem(DatabaseStores.ACTION_ITEMS, actionItem);
 		await this.loadActionItems();
 		return actionItem;
@@ -164,6 +205,8 @@ export class ActionItemService {
 		const actionItem = new ActionItem(title);
 		// Automatically set the context based on the title
 		actionItem.context = this._getContextFromTitle(title);
+		actionItem.tags = this._getTagsFromTitle(title);
+		console.log("Generated tags for new action item:", actionItem.tags);
 		await this.databaseService.addItem(DatabaseStores.ACTION_ITEMS, actionItem);
 		await this.loadActionItems();
 	}

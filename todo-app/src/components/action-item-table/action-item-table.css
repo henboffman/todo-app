@@ -271,3 +271,47 @@
     color: var(--text-color);
     cursor: pointer;
 }
+
+.local-storage-loaded-text {
+    place-self: center;
+    background: linear-gradient(90deg, rgb(102, 0, 255), #0ff, rgb(132, 0, 255)) -100%/ 200%;
+    /* being excessively careful with compat, 
+	 * though this has been supported unprefixed and 
+	 * in the shorthand across major browsers for a while */
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* use color, don't use -webkit-text-fill-color anymore, 
+	 * was meant to solve a problem we haven't had in years */
+    color: transparent;
+    font-weight: 900;
+    font-family: exo, sans-serif;
+    animation: shimmer 8s linear infinite, fade-out 3s ease 1s forwards;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0%
+    }
+
+    25% {
+        background-position: 100%
+    }
+
+    50% {
+        background-position: 0%
+    }
+
+    75% {
+        background-position: 100%
+    }
+
+    100% {
+        background-position: 0%
+    }
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+    }
+}
